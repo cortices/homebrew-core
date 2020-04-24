@@ -3,15 +3,15 @@ class Mpd < Formula
   homepage "https://www.musicpd.org/"
   url "https://www.musicpd.org/download/mpd/0.21/mpd-0.21.22.tar.xz"
   sha256 "565687d1899b585350cd66b603e46e5b79affc0a0e36d96d8953c6ccc6f69ba2"
-  revision 2
+  revision 3
   head "https://github.com/MusicPlayerDaemon/MPD.git"
 
-  bottle do
-    cellar :any
-    sha256 "5cf7b68198c7a4b9f697dcbc1473b1ab8097fce31d10334cc7f629f42ce9aab0" => :catalina
-    sha256 "fef9c65aab902666cfe634ca95231287e23bc037f56fde48765ec76585a44f0a" => :mojave
-    sha256 "4962fdff8f4344359cbf5a2cadf3453244812ec408244708ac5acfe8c2891808" => :high_sierra
-  end
+  #bottle do
+  #  cellar :any
+  #  sha256 "5cf7b68198c7a4b9f697dcbc1473b1ab8097fce31d10334cc7f629f42ce9aab0" => :catalina
+  #  sha256 "fef9c65aab902666cfe634ca95231287e23bc037f56fde48765ec76585a44f0a" => :mojave
+  #  sha256 "4962fdff8f4344359cbf5a2cadf3453244812ec408244708ac5acfe8c2891808" => :high_sierra
+  #end
 
   depends_on "boost" => :build
   depends_on "meson" => :build
@@ -31,6 +31,7 @@ class Mpd < Formula
   depends_on "libmpdclient"
   depends_on "libnfs"
   depends_on "libsamplerate"
+  depends_on "libshout"
   depends_on "libupnp"
   depends_on "libvorbis"
   depends_on "opus"
@@ -55,6 +56,7 @@ class Mpd < Formula
       -Dffmpeg=enabled
       -Dfluidsynth=enabled
       -Dnfs=enabled
+      -Dshout=enabled
       -Dupnp=enabled
       -Dvorbisenc=enabled
     ]
