@@ -1,14 +1,14 @@
 class Glib < Formula
   desc "Core application library for C"
   homepage "https://developer.gnome.org/glib/"
-  url "https://download.gnome.org/sources/glib/2.64/glib-2.64.2.tar.xz"
-  sha256 "9a2f21ed8f13b9303399de13a0252b7cbcede593d26971378ec6cb90e87f2277"
-  revision 1
+  url "https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz"
+  sha256 "fe9cbc97925d14c804935f067a3ad77ef55c0bbe9befe68962318f5a767ceb22"
+  license "LGPL-2.1"
 
   bottle do
-    sha256 "b8e8a0f1229f7094233832516f5aad725c1447a74cc1ca342b69da9b7a5aed9f" => :catalina
-    sha256 "4ac9833acd0b2e6f8aa81bc426db78bcf2f4783f4788006d329d65c29b1bc561" => :mojave
-    sha256 "b01fb6863b96a8b865ce5c60f18d3d9bdaeb1faa6ee499910f6f51b733c41c24" => :high_sierra
+    sha256 "c7259832a3bf3fe8093962473718a2ca030a94c54f21cbdc46369974d6e80be8" => :catalina
+    sha256 "47d4a4666df88be5c56def3cb5d8e7c0e3ee6baf431584c40783d98a063fb943" => :mojave
+    sha256 "1e5fadb54980899f293ea99796c33f25109c72ad745b9bc5583a1f86f02bee06" => :high_sierra
   end
 
   depends_on "meson" => :build
@@ -18,6 +18,10 @@ class Glib < Formula
   depends_on "libffi"
   depends_on "pcre"
   depends_on "python@3.8"
+
+  on_linux do
+    depends_on "util-linux"
+  end
 
   # https://bugzilla.gnome.org/show_bug.cgi?id=673135 Resolved as wontfix,
   # but needed to fix an assumption about the location of the d-bus machine
@@ -34,7 +38,7 @@ class Glib < Formula
       "@@HOMEBREW_PREFIX@@", HOMEBREW_PREFIX
 
     # Disable dtrace; see https://trac.macports.org/ticket/30413
-    args = %W[
+    args = std_meson_args + %W[
       -Diconv=auto
       -Dgio_module_dir=#{HOMEBREW_PREFIX}/lib/gio/modules
       -Dbsymbolic_functions=false
@@ -42,7 +46,7 @@ class Glib < Formula
     ]
 
     mkdir "build" do
-      system "meson", "--prefix=#{prefix}", *args, ".."
+      system "meson", *args, ".."
       system "ninja", "-v"
       # Some files have been generated with a Python shebang, rewrite these too
       Language::Python.rewrite_python_shebang(Formula["python@3.8"].opt_bin/"python3")

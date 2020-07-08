@@ -1,14 +1,15 @@
 class StressNg < Formula
   desc "Stress test a computer system in various selectable ways"
   homepage "https://kernel.ubuntu.com/~cking/stress-ng/"
-  url "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.11.07.tar.xz"
-  sha256 "705b9061e7d9e4babfbd8f580d8eb8947fda538383f7ed7d308178142c9fddcf"
+  url "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.11.14.tar.xz"
+  sha256 "b21436fdbd9dc482a3fd95ae27cccf0097d0f226361ea3785215f7a4ad50136b"
+  license "GPL-2.0"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "440903715c4c273ccb41d47093484ba19ef9ec1f0bb4289c7aa1920afc3ee096" => :catalina
-    sha256 "7e5c6db7552059a70ea0a0f8b2f17550231d07ebd8440aa12c101b47a453791c" => :mojave
-    sha256 "e42d7967ab155c5b3e7b2067730705ccd2fadff100d53bfd3da466f1b4cd0c99" => :high_sierra
+    sha256 "a770ad23d8ea44676d36920a511707fc8a2696d978a8911370e1ef04ffdd7c25" => :catalina
+    sha256 "880650bca21eefa4a8e903b9b1fc0ffc3454449ab5927e6993a430e950efafba" => :mojave
+    sha256 "77f19860f13cc93aef0bc28471a402bf491e745b89285d8949eebf07d3498e85" => :high_sierra
   end
 
   depends_on :macos => :sierra

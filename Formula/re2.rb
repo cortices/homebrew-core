@@ -1,25 +1,22 @@
 class Re2 < Formula
   desc "Alternative to backtracking PCRE-style regular expression engines"
   homepage "https://github.com/google/re2"
-  url "https://github.com/google/re2/archive/2020-04-01.tar.gz"
-  version "20200401"
-  sha256 "98794bc5416326817498384a9c43cbb5a406bab8da9f84f83c39ecad43ed5cea"
+  url "https://github.com/google/re2/archive/2020-07-01.tar.gz"
+  version "20200701"
+  sha256 "116c74f4490b5d348492bc3822292320c9e5effe18c87bcafb616be464043321"
   head "https://github.com/google/re2.git"
 
   bottle do
     cellar :any
-    sha256 "430e7efee518f5235ea75afc039168ce38c5407b525301199ccbc6c698300bb8" => :catalina
-    sha256 "67eed1f38907d1d7318b5d95f035ca18ff6186d85ee690560b8b1cd387f8afd4" => :mojave
-    sha256 "f111b7c906ab090d9db56e1f183f94d02e8cf5ce521e4ae4ff8e64d974cb5cbb" => :high_sierra
+    sha256 "8bc4b0cf696adeedc101731d1c362785f0e0a91f740b87beba0cff589d6082f0" => :catalina
+    sha256 "2d57f1f245f2f94728fe6b305d724e22928a92f580f8a12b334737287c6aafcd" => :mojave
+    sha256 "4afe221faf13b3cc35165e59ae7f8ab6b541b4559fbf2a363691479c16a5a6d0" => :high_sierra
   end
 
   def install
     ENV.cxx11
 
     system "make", "install", "prefix=#{prefix}"
-    MachO::Tools.change_dylib_id("#{lib}/libre2.6.0.0.dylib", "#{lib}/libre2.0.dylib")
-    lib.install_symlink "libre2.6.0.0.dylib" => "libre2.0.dylib"
-    lib.install_symlink "libre2.6.0.0.dylib" => "libre2.dylib"
   end
 
   test do

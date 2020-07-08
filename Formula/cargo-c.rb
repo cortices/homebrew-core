@@ -1,21 +1,31 @@
 class CargoC < Formula
   desc "Helper program to build and install c-like libraries"
   homepage "https://github.com/lu-zero/cargo-c"
-  url "https://github.com/lu-zero/cargo-c/archive/v0.6.2.tar.gz"
-  sha256 "c0a3e612b41f441081098e3f3e1716fc709421f3d17654a9f0303f420fdbc1ee"
+  url "https://github.com/lu-zero/cargo-c/archive/v0.6.8.tar.gz"
+  sha256 "ca8cb5e08b0ba5b6eccea1481854829e1b411ebb9885be891a897c27b5a76cba"
+  license "MIT"
 
   bottle do
     cellar :any
-    sha256 "9a3ef103003383aa8647d20df11de8fd10ac94a6b0c2efe518101868d70f28b1" => :catalina
-    sha256 "b752165365f28505a61acf3b9496da1faef023ee709274c14529c0efa2d147db" => :mojave
-    sha256 "a7094727446c2a705e9d4a878fca7080e030dd801ace7ed99e1bd195fcaffa8a" => :high_sierra
+    sha256 "c4b83b9a8932ab1c15706585dda3ec88b75c966c967a25661f479150e4c29d20" => :catalina
+    sha256 "97f34a38dae6ffe05ff7b03fda5c6fd8db83a23acd6d2d19abd4b50306d2a022" => :mojave
+    sha256 "2633e4edabee4b62a5959a068022356e914db735201437b9c813cc19d58b6bdb" => :high_sierra
   end
 
   depends_on "rust" => :build
+  depends_on "libgit2"
+  depends_on "libssh2"
   depends_on "openssl@1.1"
 
+  on_linux do
+    depends_on "pkg-config" => :build
+  end
+
   def install
-    system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    ENV["LIBGIT2_SYS_USE_PKG_CONFIG"] = "1"
+    ENV["LIBSSH2_SYS_USE_PKG_CONFIG"] = "1"
+
+    system "cargo", "install", *std_cargo_args
   end
 
   test do

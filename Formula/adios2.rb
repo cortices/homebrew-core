@@ -1,15 +1,15 @@
 class Adios2 < Formula
   desc "Next generation of ADIOS developed in the Exascale Computing Program"
   homepage "https://adios2.readthedocs.io"
-  url "https://github.com/ornladios/ADIOS2/archive/v2.5.0.tar.gz"
-  sha256 "7c8ff3bf5441dd662806df9650c56a669359cb0185ea232ecb3578de7b065329"
+  url "https://github.com/ornladios/ADIOS2/archive/v2.6.0.tar.gz"
+  sha256 "45b41889065f8b840725928db092848b8a8b8d1bfae1b92e72f8868d1c76216c"
   revision 1
   head "https://github.com/ornladios/ADIOS2.git", :branch => "master"
 
   bottle do
-    sha256 "971ce295562d8f85e1e38ca3bac385b9c52ec3439d4d0d2602f890d7821c25d9" => :catalina
-    sha256 "debd58d76b849e606db057cf48ed134d35a58a6d72c9c7129c5bdc8c885336b0" => :mojave
-    sha256 "13af65be2cf41a0a58359f032c59d97a1b34caad7589ec4bc4de6f0ab9c3a7f8" => :high_sierra
+    sha256 "52714e697f707e1292d16d0ab1a2454d0e2ddb5640856fa717b2494cbaaedfc1" => :catalina
+    sha256 "623afa19d1733ce0c593277625b7ea07d8b970a6d824d37f3b7cbbea0cda1f6c" => :mojave
+    sha256 "48c44768666c1fb7b4e288dec85c5e6bd45911fb72e5d77d0c0ce3099d782dec" => :high_sierra
   end
 
   depends_on "cmake" => :build
@@ -24,20 +24,28 @@ class Adios2 < Formula
   depends_on "zeromq"
   uses_from_macos "bzip2"
 
-  # HighSierra build issue with JSON support, fix already in post-2.5.0 master
-  # reference: https://github.com/ornladios/ADIOS2/pull/1805
+  # macOS 10.13 configuration-time issue detecting float types
+  # reference: https://github.com/ornladios/ADIOS2/pull/2305
+  # can be removed after v2.6.0
   patch do
-    url "https://github.com/ornladios/ADIOS2/pull/1805.patch?full_index=1"
-    sha256 "6760801cfddc48c6df158295e58d007c8b07abb82a1e79ee89c5a1e3e955d2c1"
+    url "https://github.com/ornladios/ADIOS2/pull/2305.patch?full_index=1"
+    sha256 "6d0b84af71d6ccf4cf1cdad5e064cca837d505334316e7e78d18fa30a959666a"
   end
 
   def install
+    # fix `include/adios2/common/ADIOSConfig.h` file audit failure
+    inreplace "source/adios2/common/ADIOSConfig.h.in" do |s|
+      s.gsub! ": @CMAKE_C_COMPILER@", ": /usr/bin/clang"
+      s.gsub! ": @CMAKE_CXX_COMPILER@", ": /usr/bin/clang++"
+    end
+
     args = std_cmake_args + %W[
       -DADIOS2_USE_Blosc=ON
       -DADIOS2_USE_BZip2=ON
       -DADIOS2_USE_DataSpaces=OFF
       -DADIOS2_USE_Fortran=ON
       -DADIOS2_USE_HDF5=OFF
+      -DADIOS2_USE_IME=OFF
       -DADIOS2_USE_MGARD=OFF
       -DADIOS2_USE_MPI=ON
       -DADIOS2_USE_PNG=ON

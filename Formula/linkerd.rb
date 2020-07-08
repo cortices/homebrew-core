@@ -3,14 +3,16 @@ class Linkerd < Formula
   homepage "https://linkerd.io"
 
   url "https://github.com/linkerd/linkerd2.git",
-    :tag      => "stable-2.7.1",
-    :revision => "4a91892387d422755e66a76995ecf77f060a06e2"
+    :tag      => "stable-2.8.1",
+    :revision => "83ae0ccf0f1aad636764fd0e606ac577e426d3f9"
+  license "Apache-2.0"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "c2524d3d7e38131d29fe508341fd9e019457d93ee90813523af37d534404e365" => :catalina
-    sha256 "d6aedab76f0ccf04f286c2d595b2fccd6808bbd7a635d6db9d9facae6b00cb71" => :mojave
-    sha256 "ca2e21fce5fe672a7587ea31724e8945ed5928c138692e31a8078754021d24a2" => :high_sierra
+    rebuild 1
+    sha256 "e7935ba4364476f17408883ee28616ef184313141b3bf867741909abcd350715" => :catalina
+    sha256 "5e68a496869ae3c8aef8c99331f573e2a49c7fa831584737f133e5efa7784a69" => :mojave
+    sha256 "341c693291213280a51bf4ad81281e8428a3c264301be1074ae09395b1b09e66" => :high_sierra
   end
 
   depends_on "go" => :build
@@ -22,11 +24,11 @@ class Linkerd < Formula
     bin.install "target/cli/darwin/linkerd"
 
     # Install bash completion
-    output = Utils.popen_read("#{bin}/linkerd completion bash")
+    output = Utils.safe_popen_read("#{bin}/linkerd", "completion", "bash")
     (bash_completion/"linkerd").write output
 
     # Install zsh completion
-    output = Utils.popen_read("#{bin}/linkerd completion zsh")
+    output = Utils.safe_popen_read("#{bin}/linkerd", "completion", "zsh")
     (zsh_completion/"linkerd").write output
 
     prefix.install_metafiles

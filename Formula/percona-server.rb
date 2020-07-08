@@ -16,15 +16,12 @@ class PerconaServer < Formula
   end
 
   depends_on "cmake" => :build
-
-  # https://github.com/Homebrew/homebrew-core/issues/1475
-  # Needs at least Clang 3.3, which shipped alongside Lion.
-  # Note: MySQL themselves don't support anything below Sierra.
-  depends_on :macos => :yosemite
   depends_on "openssl@1.1"
 
   conflicts_with "mariadb", "mysql",
-    :because => "percona, mariadb, and mysql install the same binaries."
+    :because => "percona, mariadb, and mysql install the same binaries"
+  conflicts_with "protobuf",
+    :because => "both install libprotobuf(-lite) libraries"
 
   # https://bugs.mysql.com/bug.php?id=86711
   # https://github.com/Homebrew/homebrew-core/pull/20538

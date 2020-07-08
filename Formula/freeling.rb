@@ -1,14 +1,13 @@
 class Freeling < Formula
   desc "Suite of language analyzers"
   homepage "http://nlp.lsi.upc.edu/freeling/"
-  url "https://github.com/TALP-UPC/FreeLing/releases/download/4.1/FreeLing-4.1.tar.gz"
-  sha256 "ccb3322db6851075c9419bb5e472aa6b2e32cc7e9fa01981cff49ea3b212247e"
-  revision 5
+  url "https://github.com/TALP-UPC/FreeLing/archive/4.1.1.tar.gz"
+  sha256 "c58822f262e6a9c550ce7dd080025aa322a0801b61aff10d5d085f8c168bee60"
 
   bottle do
-    sha256 "403173c0b34efd8a6c085f99215ca96e84290b6c624790377207375e212cb226" => :catalina
-    sha256 "7cebf4632f99818baf291c406b8843697e61d9ee8f0cc85440fbb3d24df570e2" => :mojave
-    sha256 "ffa9b765488a46e642d057187b793ed4e2cb53fb533b770b52ec6aec1acff6f1" => :high_sierra
+    sha256 "5dd469d40bae3f742009896fa79d140730ebabcb2a3be596ac7f43eb223586c0" => :catalina
+    sha256 "440b48a5861925c697ea0612ebbb5c62e6b7ac4ce86dc9e0c4beac2849e72a76" => :mojave
+    sha256 "70f42b87f7684ca80c8c10d357225d2ae079c169255b79eec78c5757c2935475" => :high_sierra
   end
 
   depends_on "cmake" => :build

@@ -2,15 +2,17 @@ class Mmctl < Formula
   desc "Remote CLI tool for Mattermost server"
   homepage "https://github.com/mattermost/mmctl"
   url "https://github.com/mattermost/mmctl.git",
-      :tag      => "v5.22.0",
-      :revision => "cef1dc6a43024d47ffd82140dd27008dd27d8bf3"
+      :tag      => "v5.25.0",
+      :revision => "c81bdf8d687f76c5da0205f8f612dc7f48969ca0"
+  license "Apache-2.0"
   head "https://github.com/mattermost/mmctl.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "4eb25c4d0c51406fa13d207e961e109a122810d3939486691373b184b9de99dc" => :catalina
-    sha256 "8713581d42ca4f50c401523025b4f78d13077bcbdb3ac20a77b7e1e2b4f7720e" => :mojave
-    sha256 "eb1c359a5892e67b19f5d04999c88ed2603e9d6ddff040663ed814de60fe5723" => :high_sierra
+    rebuild 1
+    sha256 "415f9f7185ece2cade017d9e5ace6843d60e9d298cac1e3159f954bd8cdf7da6" => :catalina
+    sha256 "b9516986947dcbe5bb62707b68d8b831dd0423d722f01151bef3e31582edae47" => :mojave
+    sha256 "5ca91ee16f3a798b7c9b68f589d5dc76b5b89ef01035f77871c2c03f087783a5" => :high_sierra
   end
 
   depends_on "go" => :build
@@ -18,16 +20,16 @@ class Mmctl < Formula
   def install
     ENV["GOBIN"] = buildpath/bin
     ENV["ADVANCED_VET"] = "FALSE"
-    ENV["BUILD_HASH"] = Utils.popen_read("git rev-parse HEAD").chomp
+    ENV["BUILD_HASH"] = Utils.safe_popen_read("git", "rev-parse", "HEAD").chomp
     ENV["BUILD_VERSION"] = version.to_s
     (buildpath/"src/github.com/mattermost/mmctl").install buildpath.children
     cd "src/github.com/mattermost/mmctl" do
       system "make", "install"
 
       # Install the zsh and bash completions
-      output = Utils.popen_read("#{bin}/mmctl completion bash")
+      output = Utils.safe_popen_read("#{bin}/mmctl", "completion", "bash")
       (bash_completion/"mmctl").write output
-      output = Utils.popen_read("#{bin}/mmctl completion zsh")
+      output = Utils.safe_popen_read("#{bin}/mmctl", "completion", "zsh")
       (zsh_completion/"_mmctl").write output
     end
   end

@@ -2,16 +2,14 @@ class Monero < Formula
   desc "Official Monero wallet and CPU miner"
   homepage "https://getmonero.org/"
   url "https://github.com/monero-project/monero.git",
-      :tag      => "v0.15.0.5",
-      :revision => "17ec003c06eb95207c91f0e9186889f83266e461"
-  revision 2
+      :tag      => "v0.16.0.1",
+      :revision => "a498a1b4ce432941dee47d74c7e05bf87acd3ad6"
 
   bottle do
     cellar :any
-    rebuild 1
-    sha256 "543a3f29581cf3d16a933bed3f1731cf83fde92ac205212cfaf001228e3bb231" => :catalina
-    sha256 "f03aa0274f3a4bc81b9a6868931b9c567782c454db60770ba54c23a48dd55db7" => :mojave
-    sha256 "8735b6ba254e5dc343112b31291feb22e848430b28f50f654971b145390c4d81" => :high_sierra
+    sha256 "4154ef1ba9eb6f9edde06952f6d86766c3f1a83f4d8a2aaae79e6356985caf23" => :catalina
+    sha256 "3f442ab635b2d13ebdb52b4bc1cba06bf78e7e5ad655fe927118cdcdee26d26e" => :mojave
+    sha256 "bafff74dce6d7a44edfbed7abe7ac3792eb5693587f92006afc7357489aa7760" => :high_sierra
   end
 
   depends_on "cmake" => :build
@@ -28,6 +26,10 @@ class Monero < Formula
   def install
     system "cmake", ".", *std_cmake_args
     system "make", "install"
+
+    # Fix conflict with miniupnpc.
+    # This has been reported at https://github.com/monero-project/monero/issues/3862
+    rm lib/"libminiupnpc.a"
   end
 
   plist_options :manual => "monerod"

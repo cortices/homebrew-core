@@ -3,13 +3,13 @@ class Pdftoipe < Formula
   homepage "https://github.com/otfried/ipe-tools"
   url "https://github.com/otfried/ipe-tools/archive/v7.2.13.1.tar.gz"
   sha256 "c8725d78e43b7d6a04465e8a156bc4c6a78121f291aac74e0b0a10286ef95544"
-  revision 4
+  revision 7
 
   bottle do
     cellar :any
-    sha256 "e5807978fae3bbfe1bd7e9824a38ca7186e5a9a551b6684102837c660116c426" => :catalina
-    sha256 "4ad28a929467ff6e45e67ebea05ec51e0eefe601e40b1224c760e87e7819b253" => :mojave
-    sha256 "d229455ca4d76f80501d4c21cfb6dc5d48fc960e751df0fefa04d74cf715fcf3" => :high_sierra
+    sha256 "2a87dbf06db83c9d397994817e64c6727c1dc593f6263822ca80d050f2495e56" => :catalina
+    sha256 "d6ad23747f3c1319cbbe7e2b1faf6f91c68199d4ef712a8e1005082acb526451" => :mojave
+    sha256 "bfbb2639bc3c0817f2a05fcfcceca6bd8741103f04a7f81826eb5d1dc6541880" => :high_sierra
   end
 
   depends_on "pkg-config" => :build

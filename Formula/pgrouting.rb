@@ -1,17 +1,15 @@
 class Pgrouting < Formula
   desc "Provides geospatial routing for PostGIS/PostgreSQL database"
   homepage "https://pgrouting.org/"
-  url "https://github.com/pgRouting/pgrouting/archive/v2.6.3.tar.gz"
-  sha256 "7ebef19dc698d4e85b85274f6949e77b26fe5a2b79335589bc3fbdfca977eb0f"
-  revision 2
+  url "https://github.com/pgRouting/pgrouting/releases/download/v3.0.1/pgrouting-3.0.1.tar.gz"
+  sha256 "c68b680e533c7f1272a5970b47120c1ee0c380c87dc7765220b9b08376ca24ff"
   head "https://github.com/pgRouting/pgrouting.git"
 
   bottle do
-    cellar :any
-    rebuild 1
-    sha256 "e16069bdff854de4c36c78323a486e5a2dad731a4a0f978cceb5cff0c29e24a1" => :catalina
-    sha256 "c6780faaf6730a4e64e066002f07170385552a71b7b4e408b80c8db09be40666" => :mojave
-    sha256 "df9def3ea12a91c30f193a0de2a0c6214de51b27f7621d173d3117db51cb1651" => :high_sierra
+    cellar :any_skip_relocation
+    sha256 "27162013c5ee71817df7b0dfd2719fa0d4feffa12562459f40be60ef6e9dc489" => :catalina
+    sha256 "07641049a211aa7b93fd12743b88e33fe2d1cd79c38bff5c66d56a5cd95ce90a" => :mojave
+    sha256 "8d108e351d1f25eff11f6436fee86065f20d9d5caefa31a2c2b12d65e4985203" => :high_sierra
   end
 
   depends_on "cmake" => :build
@@ -20,13 +18,6 @@ class Pgrouting < Formula
   depends_on "gmp"
   depends_on "postgis"
   depends_on "postgresql"
-
-  # Patch for CGAL 5.0. To be removed next release.
-  # see https://github.com/pgRouting/pgrouting/pull/1188 for fix upstream
-  patch do
-    url "https://cgal.geometryfactory.com/~mgimeno/pgrouting-for-cgal-5-0.diff"
-    sha256 "9dab335d9782b1214852d85a3559bc1092ea95b9abd6b5701759799050005c98"
-  end
 
   def install
     mkdir "stage"

@@ -3,10 +3,11 @@ class Sslyze < Formula
 
   desc "SSL scanner"
   homepage "https://github.com/nabla-c0d3/sslyze"
+  license "AGPL-3.0"
 
   stable do
-    url "https://github.com/nabla-c0d3/sslyze/archive/3.0.2.tar.gz"
-    sha256 "64baff0ffba8e89e848bd8d021268bf2e594e3417a1044a90203d44261e57fe0"
+    url "https://github.com/nabla-c0d3/sslyze/archive/3.0.8.tar.gz"
+    sha256 "9a4d2354a0db53a70a4329e63af9ecc4639c74f9048811c2a3f03a41695c3cbe"
 
     resource "nassl" do
       url "https://github.com/nabla-c0d3/nassl/archive/3.0.0.tar.gz"
@@ -16,9 +17,9 @@ class Sslyze < Formula
 
   bottle do
     cellar :any
-    sha256 "65e5b3d3127c1ca9899c22fff2234a0b4347b5e053869ad2c412d2c0f053f73e" => :catalina
-    sha256 "b572a1cff657f6a47654cbdd66f5a829aadcede52530dfcfd7b5d75c9b78716c" => :mojave
-    sha256 "a8c1c56b7db2c94b1240b75f5991fe4c5220994009659819ba38b70850ad9cb8" => :high_sierra
+    sha256 "b5a0b1691a0f599ba5e43e54c690ebcdcb71460363e837a4c37bf7a92d8210e6" => :catalina
+    sha256 "2b13136ca39b259fe1cf169f2fa0032ea554f0973b228e710c10b4fe15340bcf" => :mojave
+    sha256 "60928584ee62129c4ec2ef9bd3387ed0f0d08ec7b41d10b211fe54b47b4ba8a4" => :high_sierra
   end
 
   head do
@@ -33,12 +34,7 @@ class Sslyze < Formula
   depends_on :arch => :x86_64
   depends_on "libffi"
   depends_on "openssl@1.1"
-  depends_on "python"
-
-  resource "asn1crypto" do
-    url "https://files.pythonhosted.org/packages/9f/3d/8beae739ed8c1c8f00ceac0ab6b0e97299b42da869e24cf82851b27a9123/asn1crypto-1.3.0.tar.gz"
-    sha256 "5a215cb8dc12f892244e3a113fe05397ee23c5c4ca7a69cd6e69811755efc42d"
-  end
+  depends_on "python@3.8"
 
   resource "cffi" do
     url "https://files.pythonhosted.org/packages/05/54/3324b0c46340c31b909fcec598696aaec7ddc8c18a63f2db352562d3354c/cffi-1.14.0.tar.gz"
@@ -56,22 +52,17 @@ class Sslyze < Formula
   end
 
   resource "six" do
-    url "https://files.pythonhosted.org/packages/21/9f/b251f7f8a76dec1d6651be194dfba8fb8d7781d10ab3987190de8391d08e/six-1.14.0.tar.gz"
-    sha256 "236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"
+    url "https://files.pythonhosted.org/packages/6b/34/415834bfdafca3c5f451532e8a8d9ba89a21c9743a0c59fbd0205c7f9426/six-1.15.0.tar.gz"
+    sha256 "30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"
   end
 
   resource "tls-parser" do
-    url "https://files.pythonhosted.org/packages/49/c4/aa379256eb83469154c671b700b3edb42ae781044a4cd40ae92bff8259c7/tls_parser-1.2.1.tar.gz"
-    sha256 "869ad3c8a45e73bcbb3bf0dd094f0345675c830e851576f42585af1a60c2b0e5"
-  end
-
-  resource "typing_extensions" do
-    url "https://files.pythonhosted.org/packages/6a/28/d32852f2af6b5ead85d396249d5bdf450833f3a69896d76eb480d9c5e406/typing_extensions-3.7.4.2.tar.gz"
-    sha256 "79ee589a3caca649a9bfd2a8de4709837400dfa00b6cc81962a1e6a1815969ae"
+    url "https://files.pythonhosted.org/packages/66/4e/da7f727a76bd9abee46f4035dbd7a4711cde408f286dae00c7a1f9dd9cbb/tls_parser-1.2.2.tar.gz"
+    sha256 "83e4cb15b88b00fad1a856ff54731cc095c7e4f1ff90d09eaa24a5f48854da93"
   end
 
   def install
-    venv = virtualenv_create(libexec, "python3")
+    venv = virtualenv_create(libexec, "python3.8")
 
     res = resources.map(&:name).to_set
     res -= %w[nassl]
@@ -82,6 +73,7 @@ class Sslyze < Formula
 
     resource("nassl").stage do
       nassl_path = Pathname.pwd
+      inreplace "Pipfile", 'python_version = "3.7"', 'python_version = "3.8"'
       system "pipenv", "install", "--dev"
       system "pipenv", "run", "invoke", "build.all"
       venv.pip_install nassl_path

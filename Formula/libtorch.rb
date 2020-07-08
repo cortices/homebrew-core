@@ -4,19 +4,18 @@ class Libtorch < Formula
   desc "Tensors and dynamic neural networks"
   homepage "https://pytorch.org/"
   url "https://github.com/pytorch/pytorch.git",
-      :tag      => "v1.5.0",
-      :revision => "4ff3872a2099993bf7e8c588f7182f3df777205b"
-  revision 1
+      :tag      => "v1.5.1",
+      :revision => "3c31d73c875d9a4a6ea8a843b9a0d1b19fbe36f3"
 
   bottle do
     cellar :any
-    sha256 "6e3ebac533fa77f696db57865d8894975f9b0433962ff76b8241fcfebb1c8bf2" => :catalina
-    sha256 "815a9ca7b58d36ee60242d8f6df85834d2c87553456aedce6d0710f625fce006" => :mojave
-    sha256 "43ce1603d36b4dfe1dcf830efe185e649b0854a703586aba8e5450ca61b3ee34" => :high_sierra
+    sha256 "63efffa3662f0b51da7cbfc139f28f4a897eba539fe0aa22ab86a5e4f96c93af" => :catalina
+    sha256 "0af7bf84c6aa66e282bafece2ec74a17c2372a29c55b82a2a9e1a7ec0133c46c" => :mojave
+    sha256 "f39db17e6eb7c73b4087fbf5e927443bf6588fcaac04cdb3acd976e07be0610f" => :high_sierra
   end
 
   depends_on "cmake" => :build
-  depends_on "python" => :build
+  depends_on "python@3.8" => :build
   depends_on "eigen"
   depends_on "libomp"
   depends_on "libyaml"
@@ -44,7 +43,7 @@ class Libtorch < Formula
   patch :DATA
 
   def install
-    venv = virtualenv_create(libexec, "python3")
+    venv = virtualenv_create(libexec, Formula["python@3.8"].opt_bin/"python3")
     venv.pip_install resources
 
     args = %W[

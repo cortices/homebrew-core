@@ -3,14 +3,15 @@ class Mapnik < Formula
   homepage "https://mapnik.org/"
   url "https://github.com/mapnik/mapnik/releases/download/v3.0.23/mapnik-v3.0.23.tar.bz2"
   sha256 "4b1352e01f7ce25ab099e586d7ae98e0b74145a3bf94dd365cb0a2bdab3b9dc2"
-  revision 1
+  license "LGPL-2.1"
+  revision 3
   head "https://github.com/mapnik/mapnik.git"
 
   bottle do
     cellar :any
-    sha256 "d39128e12b79f6e947373e62a806a895ec324fd0253f965a50cddc03f335589e" => :catalina
-    sha256 "9173285d5942f0097a9893c3246e2c3a122ed9268387fdee29273d32f87d87f4" => :mojave
-    sha256 "9e22b298e02182c838971c5434742afe3968006ff2b7df990116271f45946981" => :high_sierra
+    sha256 "ba583ea99a13377783c2dabc25c55ccc2d1a296cfb1f52e9a4a08dc82a0b0576" => :catalina
+    sha256 "5c6ebca702fb213f0ca8a678726a57c54d1b97a48d88d61b90ccfb6bd2b0d605" => :mojave
+    sha256 "ef6e65090ed5b627874c66ab30e5365ffcd90c7c9b4f810b318113c014b7a528" => :high_sierra
   end
 
   depends_on "pkg-config" => :build

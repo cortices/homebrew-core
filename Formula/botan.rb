@@ -1,14 +1,15 @@
 class Botan < Formula
   desc "Cryptographic algorithms and formats library in C++"
   homepage "https://botan.randombit.net/"
-  url "https://botan.randombit.net/releases/Botan-2.14.0.tar.xz"
-  sha256 "0c10f12b424a40ee19bde00292098e201d7498535c062d8d5b586d07861a54b5"
+  url "https://botan.randombit.net/releases/Botan-2.15.0.tar.xz"
+  sha256 "d88af1307f1fefac79aa4f2f524699478d69ce15a857cf2d0a90ac6bf2a50009"
+  license "BSD-2-Clause"
   head "https://github.com/randombit/botan.git"
 
   bottle do
-    sha256 "75f313ac637a72bc4d9bae3da9be62bc77c266f3fbe5802093c65085f1f02dea" => :catalina
-    sha256 "97fbb92e2f170233b142a71cc5781dd0166f802ca87f070b416e746803d9ba3f" => :mojave
-    sha256 "a1476f2cb331dbca755c3edb274cafe50c6d7fd6e5504d1e1990a98905accda1" => :high_sierra
+    sha256 "bd68e97faa7176a2f13f37ab82eac7e16741df8c605921df0e9fff62a178ecfd" => :catalina
+    sha256 "028b813523b0466859ac83cc4a785f3fa1bf7941f9fdb4c0c7dc14bcdfd2bc46" => :mojave
+    sha256 "729e265be59f87467919084a752fa793c94a8f06898bfb9b0439a0aec1f8ee54" => :high_sierra
   end
 
   depends_on "pkg-config" => :build
@@ -24,7 +25,6 @@ class Botan < Formula
     args = %W[
       --prefix=#{prefix}
       --docdir=share/doc
-      --cpu=#{MacOS.preferred_arch}
       --cc=#{ENV.compiler}
       --os=darwin
       --with-openssl
@@ -38,7 +38,7 @@ class Botan < Formula
 
   test do
     (testpath/"test.txt").write "Homebrew"
-    (testpath/"testout.txt").write Utils.popen_read("#{bin}/botan base64_enc test.txt")
+    (testpath/"testout.txt").write shell_output("#{bin}/botan base64_enc test.txt")
     assert_match "Homebrew", shell_output("#{bin}/botan base64_dec testout.txt")
   end
 end

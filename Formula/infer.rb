@@ -5,6 +5,7 @@ class Infer < Formula
   url "https://github.com/facebook/infer.git",
       :tag      => "v0.17.0",
       :revision => "99464c01da5809e7159ed1a75ef10f60d34506a4"
+  license "MIT"
 
   bottle do
     cellar :any
@@ -89,7 +90,7 @@ class Infer < Formula
     ENV["OPAMIGNORECONSTRAINTS"] = "ocaml,ocamlfind,num,#{pinned_deps.keys.join(",")}"
 
     # Remove ocaml-variants dependency (we won't be using it)
-    inreplace "opam.locked", /^ +"ocaml-variants" {= ".*?"}$\n/, ""
+    inreplace "opam.locked", /^ +"ocaml-variants" \{= ".*?"\}$\n/, ""
 
     system "opam", "exec", "--", "./build-infer.sh", "all", "--yes", "--user-opam-switch"
     system "opam", "exec", "--", "make", "install-with-libs"

@@ -1,14 +1,16 @@
 class Mlpack < Formula
   desc "Scalable C++ machine learning library"
   homepage "https://www.mlpack.org"
-  url "https://mlpack.org/files/mlpack-3.3.0.tar.gz"
-  sha256 "63cdc3569f2e929899cc30c2e808a42709723c2ea56f8c2953edc7188eab5559"
+  url "https://mlpack.org/files/mlpack-3.3.2.tar.gz"
+  sha256 "11904a39a7e34ee66028292fd054afb460eacd07ec5e6c63789aba117e4d854c"
+  revision 1
 
   bottle do
     cellar :any
-    sha256 "501206fb1510f71f33c16619c9c78fbf9207cdb2a812e4e67685dcce64853f25" => :catalina
-    sha256 "4aba1296a363430006008630df06f837a0e966b0b1ab5acfc7ff70386f7b0bee" => :mojave
-    sha256 "4c3ce0467ecd779516d9a061438889347041628508ddbcbda1d7cb56c10a4a99" => :high_sierra
+    rebuild 1
+    sha256 "3b98834eb65f185a1b8d6c2d505995e51ee77443dad98da8c1f16b5ad5e665ee" => :catalina
+    sha256 "bee3717f1ce59530b51fed4f454fc0f56d459e15cf04cd262d9896ab98c3f0ac" => :mojave
+    sha256 "42fba9f2653c3deab2acec2de9276dd9787b09ce902ea5857d4bef9f10593ab1" => :high_sierra
   end
 
   depends_on "cmake" => :build
@@ -40,6 +42,7 @@ class Mlpack < Formula
       -DPROFILE=OFF
       -DBUILD_TESTS=OFF
       -DDISABLE_DOWNLOADS=ON
+      -DUSE_OPENMP=OFF
       -DARMADILLO_INCLUDE_DIR=#{Formula["armadillo"].opt_include}
       -DENSMALLEN_INCLUDE_DIR=#{Formula["ensmallen"].opt_include}
       -DARMADILLO_LIBRARY=#{Formula["armadillo"].opt_lib}/libarmadillo.dylib

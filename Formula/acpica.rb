@@ -1,15 +1,15 @@
 class Acpica < Formula
   desc "OS-independent implementation of the ACPI specification"
   homepage "https://www.acpica.org/"
-  url "https://acpica.org/sites/acpica/files/acpica-unix-20200326.tar.gz"
-  sha256 "99f9f394783de68e4f340135c72c8566d5aa7f8dc2bfdbebe35b161fe3d722ff"
+  url "https://acpica.org/sites/acpica/files/acpica-unix-20200528.tar.gz"
+  sha256 "e69f81c6924c8d30f9b9005bb002307f07b5a1538e13c909bea2f8a44e0d8610"
   head "https://github.com/acpica/acpica.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "ed7b75181da19348712bc945e439e1c3c078225acda830d54d7f3d90d65c6571" => :catalina
-    sha256 "24c202172a1d74c1aae72df631a74705a8066f89801b626ff28e613b8b7f8525" => :mojave
-    sha256 "38c99a539407a5768a4fa3d80b207cd85b89d558038099a4b60b7616e16f36fb" => :high_sierra
+    sha256 "cd77c7ab262dccd3cb56bb5685ef94aabb63a0f3bffb1834504a12fb910bf0ed" => :catalina
+    sha256 "d5be4c0ca5c62d26063618cd358b552f13bde291c68792016b8d3ec3e74579ef" => :mojave
+    sha256 "b6b6ae7b98a9450ac248d85bee082743f749a95320550028198af6f2c6e0681f" => :high_sierra
   end
 
   uses_from_macos "bison" => :build

@@ -1,30 +1,43 @@
 class Chezmoi < Formula
   desc "Manage your dotfiles across multiple machines, securely"
   homepage "https://chezmoi.io/"
-  url "https://github.com/twpayne/chezmoi/archive/v1.8.0.tar.gz"
-  sha256 "b55289372b0e419d9e759f3193cca366a0ae1de2bd72f523d49a0e8ca8567a47"
-  head "https://github.com/twpayne/chezmoi.git"
+  url "https://github.com/twpayne/chezmoi.git",
+      :tag      => "v1.8.3",
+      :revision => "6d2be34cda3461ddf1211f98fdb10c00a4e18d67"
+  license "MIT"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "55192586a5d4287885b7a2de6fd94dd002f074480ec99077ca0215b5d255ae0b" => :catalina
-    sha256 "08a42d8e4fc5920be533353ae3a7701bd45ebe6da8370ea7aa02e287c2de2f34" => :mojave
-    sha256 "f3d02bc4834d30f8100054ea90d6fe45133bde1d431a052fa1dfa591ef5cad0b" => :high_sierra
+    sha256 "bb13d0b336530dc43fb1a9d4049e9ba1bb52c9f4a86b3904b133772c65929642" => :catalina
+    sha256 "d38518b88a41af06b375d6fa2ab7c028c3b22d2064000d87aa3022b98d3b6f22" => :mojave
+    sha256 "d90ae59b97acb8e4d98564277dc7d1f12c5028c18a2cd7947a03d1dcdea0bbef" => :high_sierra
   end
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", *std_go_args, "-ldflags", "-s -w"
+    commit = Utils.safe_popen_read("git", "rev-parse", "HEAD").chomp
+    ldflags = %W[
+      -s -w
+      -X main.version=#{version}
+      -X main.commit=#{commit}
+      -X main.date=#{Time.now.utc.rfc3339}
+      -X main.builtBy=homebrew
+    ].join(" ")
+    system "go", "build", *std_go_args, "-ldflags", ldflags
 
-    system "make", "completions"
     bash_completion.install "completions/chezmoi-completion.bash"
-    zsh_completion.install "completions/chezmoi.zsh"
+    fish_completion.install "completions/chezmoi.fish"
+    zsh_completion.install "completions/chezmoi.zsh" => "_chezmoi"
 
     prefix.install_metafiles
   end
 
   test do
+    # test version to ensure that version number is embedded in binary
+    assert_match "version #{version}", shell_output("#{bin}/chezmoi --version")
+    assert_match "built by homebrew", shell_output("#{bin}/chezmoi --version")
+
     system "#{bin}/chezmoi", "init"
     assert_predicate testpath/".local/share/chezmoi", :exist?
   end

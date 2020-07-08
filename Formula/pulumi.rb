@@ -2,14 +2,16 @@ class Pulumi < Formula
   desc "Cloud native development platform"
   homepage "https://pulumi.io/"
   url "https://github.com/pulumi/pulumi.git",
-      :tag      => "v2.0.0",
-      :revision => "00acc7999a27043871e8167ea3cc82ea01e2bd53"
+      :tag      => "v2.5.0",
+      :revision => "ad721d3b5421b2a7b10a0dfdd8abae8cf4b80e69"
+  license "Apache-2.0"
+  head "https://github.com/pulumi/pulumi.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "1e0ccf567acdb3edbd7efcd06f1fd1570337d5f7d0c8e56339eb777f33d7f504" => :catalina
-    sha256 "e0c08ff019300d06ac054e46f56284dff7addc3b2a0990322db2c5cfaf81c8a3" => :mojave
-    sha256 "81d02429de91b36db52d55de85aa47dfd9f47c3b4b229b954fe7ff71d9a7bc23" => :high_sierra
+    sha256 "f7cc20c0135e0bf40c372f63e1aca9a313e5409a334c6e04862d7811eac0f223" => :catalina
+    sha256 "9f789bdef38e8099178635d7a4cc89e7f294e0c256a04620b97f768458fd06b3" => :mojave
+    sha256 "68ac096ceb7024c6dcbe2523b97475e0ae2587df5a7c2ed14d66da512b8c13f2" => :high_sierra
   end
 
   depends_on "go" => :build
@@ -28,17 +30,14 @@ class Pulumi < Formula
       cd "./pkg" do
         system "go", "mod", "download"
       end
-      system "make", "dist"
+      system "make", "brew"
       bin.install Dir["#{buildpath}/bin/*"]
       prefix.install_metafiles
 
-      # Install bash completion
-      output = Utils.popen_read("#{bin}/pulumi gen-completion bash")
-      (bash_completion/"pulumi").write output
-
-      # Install zsh completion
-      output = Utils.popen_read("#{bin}/pulumi gen-completion zsh")
-      (zsh_completion/"_pulumi").write output
+      # Install shell completions
+      (bash_completion/"pulumi.bash").write `#{bin}/pulumi gen-completion bash`
+      (zsh_completion/"_pulumi").write `#{bin}/pulumi gen-completion zsh`
+      (fish_completion/"pulumi.fish").write `#{bin}/pulumi gen-completion fish`
     end
   end
 

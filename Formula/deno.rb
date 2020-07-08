@@ -1,14 +1,16 @@
 class Deno < Formula
-  desc "Command-line JavaScript / TypeScript engine"
+  desc "Secure runtime for JavaScript and TypeScript"
   homepage "https://deno.land/"
-  url "https://github.com/denoland/deno/releases/download/v0.41.0/deno_src.tar.gz"
-  sha256 "8f42201d9242384629d419fc584bfe2385035d96937ee1cafd702ce4b06253c4"
+  url "https://github.com/denoland/deno/releases/download/v1.1.3/deno_src.tar.gz"
+  sha256 "f953919aceb86d5ebce070267106d2ced07a9b1741c1b01f0a0778c9f9e61e98"
+  license "MIT"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "e958070dd0024d8c077e322dd944a01bbeb1f5eabb42e4abdebe7ad8b7931028" => :catalina
-    sha256 "e9d3eb1ec52faf7531a79ac244e4dba3111d8ab1d5b2389ed1a4f488fa36e296" => :mojave
-    sha256 "c26dbb744b1539161b9a52ea1e43affcd34502d848971f55aeac3128418405eb" => :high_sierra
+    rebuild 1
+    sha256 "ec98829f0fd012242845099236bd6d51d86638bff237b669a60d6f64c4f6b3fe" => :catalina
+    sha256 "33086b7a5100ab2a6ee9fcefb006e2421610bd49edd5186c1619f35bf81bd0c2" => :mojave
+    sha256 "fbeaa845d6d96efa4a096d56b34499197887932e3809ff3e8bce43421641e99e" => :high_sierra
   end
 
   depends_on "llvm" => :build
@@ -21,7 +23,7 @@ class Deno < Formula
 
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-      :revision => "fd3d768bcfd44a8d9639fe278581bd9851d0ce3a"
+      :revision => "5ed3c9cc67b090d5e311e4bd2aba072173e82db9"
   end
 
   def install
@@ -43,13 +45,13 @@ class Deno < Formula
     ENV.remove "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib
 
     cd "cli" do
-      system "cargo", "install", "-vv", "--locked", "--root", prefix, "--path", "."
+      system "cargo", "install", "-vv", *std_cargo_args
     end
 
     # Install bash and zsh completion
-    output = Utils.popen_read("#{bin}/deno completions bash")
+    output = Utils.safe_popen_read("#{bin}/deno", "completions", "bash")
     (bash_completion/"deno").write output
-    output = Utils.popen_read("#{bin}/deno completions zsh")
+    output = Utils.safe_popen_read("#{bin}/deno", "completions", "zsh")
     (zsh_completion/"_deno").write output
   end
 
@@ -59,7 +61,7 @@ class Deno < Formula
     EOS
     assert_match "hello deno", shell_output("#{bin}/deno run hello.ts")
     assert_match "console.log",
-      shell_output("#{bin}/deno run --allow-read=#{testpath} https://deno.land/std/examples/cat.ts " \
+      shell_output("#{bin}/deno run --allow-read=#{testpath} https://deno.land/std@0.50.0/examples/cat.ts " \
                    "#{testpath}/hello.ts")
   end
 end

@@ -1,13 +1,14 @@
 class Arangodb < Formula
   desc "The Multi-Model NoSQL Database"
   homepage "https://www.arangodb.com/"
-  url "https://download.arangodb.com/Source/ArangoDB-3.6.3.tar.gz"
-  sha256 "76451106ab13f1bae19cdad24ecb2c895e3576c4742787d3be95d2875de4e145"
+  url "https://download.arangodb.com/Source/ArangoDB-3.6.4.tar.gz"
+  sha256 "e2755fc3576edc0531ca2dd43c6edb690494bc7b44426c9236b1edb575be8aa9"
+  license "Apache-2.0"
   head "https://github.com/arangodb/arangodb.git", :branch => "devel"
 
   bottle do
-    sha256 "e84209b460ddc4a8dc868d8f5ceba7d4ce478ebba51a5c204b149baa9495ec0f" => :catalina
-    sha256 "14c64c8339f728ce34b8671daad6f8d94b13fd0cda6f6875c37cfe48ad7f9b2a" => :mojave
+    sha256 "4bf7f43c396ee8273591232f880a7c33f2207c521efe591aaa9ace900ca03696" => :catalina
+    sha256 "251c7b9442a8da3a4d62f487a159ebc3089ef5398c399aec5c47c4deb9ea5729" => :mojave
   end
 
   depends_on "ccache" => :build
@@ -40,6 +41,7 @@ class Arangodb < Formula
     end
 
     mkdir "build" do
+      openssl = Formula["openssl@1.1"]
       args = std_cmake_args + %W[
         -DHOMEBREW=ON
         -DCMAKE_BUILD_TYPE=RelWithDebInfo
@@ -47,8 +49,8 @@ class Arangodb < Formula
         -DUSE_JEMALLOC=Off
         -DCMAKE_SKIP_RPATH=On
         -DOPENSSL_USE_STATIC_LIBS=On
-        -DCMAKE_LIBRARY_PATH=#{prefix}/opt/openssl@1.1/lib
-        -DOPENSSL_ROOT_DIR=#{prefix}/opt/openssl@1.1/lib
+        -DCMAKE_LIBRARY_PATH=#{openssl.opt_lib}
+        -DOPENSSL_ROOT_DIR=#{openssl.opt_lib}
         -DCMAKE_OSX_DEPLOYMENT_TARGET=#{MacOS.version}
         -DTARGET_ARCHITECTURE=nehalem
         -DUSE_CATCH_TESTS=Off
@@ -69,12 +71,10 @@ class Arangodb < Formula
   end
 
   def caveats
-    s = <<~EOS
+    <<~EOS
       An empty password has been set. Please change it by executing
         #{opt_sbin}/arango-secure-installation
     EOS
-
-    s
   end
 
   plist_options :manual => "#{HOMEBREW_PREFIX}/opt/arangodb/sbin/arangod"

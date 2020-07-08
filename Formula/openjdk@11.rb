@@ -4,6 +4,7 @@ class OpenjdkAT11 < Formula
   url "https://hg.openjdk.java.net/jdk-updates/jdk11u/archive/jdk-11.0.7+10.tar.bz2"
   version "11.0.7+10"
   sha256 "e86d27cc3119be2178fc20c0115f8863fa86ac3ffd0c825fef7d16683f78b852"
+  license "GPL-2.0"
 
   bottle do
     cellar :any
@@ -15,6 +16,10 @@ class OpenjdkAT11 < Formula
   keg_only :versioned_formula
 
   depends_on "autoconf" => :build
+
+  on_linux do
+    depends_on "pkg-config" => :build
+  end
 
   resource "boot-jdk" do
     url "https://download.java.net/java/GA/jdk10/10.0.2/19aef61b38124481863b1413dce1855f/13/openjdk-10.0.2_osx-x64_bin.tar.gz"

@@ -1,14 +1,13 @@
 class Proj < Formula
   desc "Cartographic Projections Library"
   homepage "https://proj.org/"
-  url "https://github.com/OSGeo/PROJ/releases/download/7.0.0/proj-7.0.0.tar.gz"
-  sha256 "ee0e14c1bd2f9429b1a28999240304c0342ed739ebaea3d4ff44c585b1097be8"
+  url "https://github.com/OSGeo/PROJ/releases/download/7.1.0/proj-7.1.0.tar.gz"
+  sha256 "876151e2279346f6bdbc63bd59790b48733496a957bccd5e51b640fdd26eaa8d"
 
   bottle do
-    rebuild 1
-    sha256 "3d45e9a534f97ed67183252e41c8d5c713e2f9f9d29df26bd1f31043d4b32731" => :catalina
-    sha256 "de1ce33e57ad23e36c5ad5bc3c902630870b9a63b1b21d819d8853881736bf7f" => :mojave
-    sha256 "719b1670cf4560071cfb64b811ef494b278655f33e00b221eeda6f209d2ba6e7" => :high_sierra
+    sha256 "53ecef2f47a68f3408c6c1e4c1abe1fdd3359419b8aca0e307f5da6f4c878ec2" => :catalina
+    sha256 "4ff4088f982c26e43fd33e6eeef921a4731620ad55b8b3f91df1fc3fcdf3474f" => :mojave
+    sha256 "c68d5683285b248ef35d7709adf5f35ed0ca8158a633e6887a6990af65f03a85" => :high_sierra
   end
 
   head do
@@ -34,18 +33,8 @@ class Proj < Formula
     sha256 "b9838ae7e5f27ee732fb0bfed618f85b36e8bb56d7afb287d506338e9f33861e"
   end
 
-  # Fixes https://github.com/OSGeo/PROJ/issues/2064 using https://github.com/OSGeo/PROJ/pull/2067
-  # Remove after version > 7.0.0
-  patch do
-    url "https://github.com/OSGeo/PROJ/commit/d8835f1288207ba9a7e78082050ef61af3ded1e3.diff?full_index=1"
-    sha256 "9a579a7a0fa33ea8c03639aef95f2b1d22afbc1d5167a927ce0670ff5432719e"
-  end
-
   def install
     (buildpath/"nad").install resource("datumgrid")
-    # we need to touch these files to stop autoreconf running and then failing due to the patch op above
-    # Remove touch op after version > 7.0.0
-    touch ["configure.ac", "aclocal.m4", "configure", "Makefile.am", "Makefile.in", "src/proj_config.h.in"]
     system "./autogen.sh" if build.head?
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}"

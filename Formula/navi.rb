@@ -1,21 +1,22 @@
 class Navi < Formula
   desc "Interactive cheatsheet tool for the command-line"
   homepage "https://github.com/denisidoro/navi"
-  url "https://github.com/denisidoro/navi/archive/v2.5.1.tar.gz"
-  sha256 "0c6f2b32c27e81cfb43a3f781dbdc7404d1afaf7f1e9a3cb178c2054493d54a1"
+  url "https://github.com/denisidoro/navi/archive/v2.7.0.tar.gz"
+  sha256 "47a6aa786702eb5387e9bc77790749d77240835293982cffc9ba3a329a359c13"
+  license "Apache-2.0"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "a1582261e962b8935dd9cb531a20f1b07913ee5216e38d42f275edeb75e0a1c1" => :catalina
-    sha256 "b72d0751b8c3086a751e9fcb8a9eb2ddc352d84dfc6b5244d20d3c0acf9c455d" => :mojave
-    sha256 "6c3afa49b15f8a8e15bbaba15ebab0a683cd270c97121d7639ddf86fa43d6d3a" => :high_sierra
+    sha256 "4bb0a094d284ae344216ff510acab238c0ac9de53d62718736692ddcfa82b4d3" => :catalina
+    sha256 "d01ac98c9b810e673232f9e56aaa8e3316866d0e3579d7a3ab349fc68cc68f6f" => :mojave
+    sha256 "05e2b50a3d499792f11f3faa95afb74e4c4d3b1556a6ab53b65f43cbb62ff1f2" => :high_sierra
   end
 
   depends_on "rust" => :build
   depends_on "fzf"
 
   def install
-    system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    system "cargo", "install", *std_cargo_args
   end
 
   test do

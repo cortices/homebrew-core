@@ -1,15 +1,16 @@
 class SpirvCross < Formula
   desc "Performing reflection and disassembling SPIR-V"
   homepage "https://github.com/KhronosGroup/SPIRV-Cross"
-  url "https://github.com/KhronosGroup/SPIRV-Cross/archive/2020-04-03.tar.gz"
-  version "2020-04-03"
-  sha256 "93f3a6dfad17c9ca0bf4d2d80809e90118e13b47502eb395baba8784025d7e97"
+  url "https://github.com/KhronosGroup/SPIRV-Cross/archive/2020-06-29.tar.gz"
+  version "2020-06-29"
+  sha256 "29523168867fcfa55b03a65970a8572be67e37accb08ce1051b2d3ae19011452"
+  license "Apache-2.0"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "676dcd4ec56ff3b2c1fc4be5c850623e2b839eaf9f16a9c42d13d200e93ed733" => :catalina
-    sha256 "c0d66272d9671b9c11f7e14e98ca79d3d35bc49b3f2177ab2240f2162005caef" => :mojave
-    sha256 "5ac27e4db196d90bf2680a4ad1175a2a827e2714924c0ecae6de608338d36d3d" => :high_sierra
+    sha256 "e23ad5f26f55793c665977deecea85f7d1ac92a9f80bef9c86eaf8195709007a" => :catalina
+    sha256 "33675bde9b1f2e5861d6c5b37f027ac9be2f9a1783d2efdc84f7756c483b085e" => :mojave
+    sha256 "51295b9f28b4bff7807d938c741c7a0c5a807d22808dd84df97457bbcde9f621" => :high_sierra
   end
 
   depends_on "cmake" => :build

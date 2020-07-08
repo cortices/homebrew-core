@@ -1,16 +1,16 @@
 class Mockolo < Formula
   desc "Efficient Mock Generator for Swift"
   homepage "https://github.com/uber/mockolo"
-  url "https://github.com/uber/mockolo/archive/1.2.1.tar.gz"
-  sha256 "6d954451660ce898fd4478d0c6a9f2abe8ff44d0cf99e459914d95dca098af13"
+  url "https://github.com/uber/mockolo/archive/1.2.4.tar.gz"
+  sha256 "c2394a4f5e94cd0a6c8d380085b806e0fa4e52586ea3c888148ad9767ad9ef3b"
+  license "Apache-2.0"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "97ec13b016f5323decafb8c8d7e0198a2dbf49d099638f8664306b133b225bb9" => :catalina
-    sha256 "d7fa6d2386c4592e212eb26ee674e582e716e82113408a5ecf5335ce3a22fa07" => :mojave
+    sha256 "1177ebf6dd5b6507305913a9738c54c842291a2956658fbc73ca682e04a50b21" => :catalina
   end
 
-  depends_on :xcode => ["11.0", :build]
+  depends_on :xcode => ["11.4", :build]
 
   def install
     system "swift", "build", "-c", "release", "--disable-sandbox"

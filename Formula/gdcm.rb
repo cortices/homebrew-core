@@ -1,14 +1,14 @@
 class Gdcm < Formula
   desc "Grassroots DICOM library and utilities for medical files"
   homepage "https://sourceforge.net/projects/gdcm/"
-  url "https://github.com/malaterre/GDCM/archive/v3.0.5.tar.gz"
-  sha256 "5cc175d9b845db91143f972e505680e766ab814a147b16abbb34acd88dacdb5a"
-  revision 3
+  url "https://github.com/malaterre/GDCM/archive/v3.0.7.tar.gz"
+  sha256 "e00881f0a93d2db4a686231d5f1092a4bc888705511fe5d90114f2226147a18d"
 
   bottle do
-    sha256 "86fc501d2a092709c395a8ecfa3e37fa69674143fc545169aaca62ed1159698a" => :catalina
-    sha256 "e01105f79fd1c3e962be24e525282e25f6aa3c8068f5356550901e9e910550b8" => :mojave
-    sha256 "4782b8fac14429ab11af020b82c092da978c95aba3e83d0f00bb6b41e52d34f6" => :high_sierra
+    rebuild 1
+    sha256 "b4fcbfc9a2dd14f8d5b0cc1fd1f5900465b469a1f05fbae51f09bc209a578dac" => :catalina
+    sha256 "67a12632e5705ed9ce8b72061b88b16246114d89a9e0594c1dd60100869e7412" => :mojave
+    sha256 "6210fcdf8afd786ec2b49c74f1d5bd6d4e0f40e1404ffdbb0ee40c66ef53715d" => :high_sierra
   end
 
   depends_on "cmake" => :build
@@ -26,8 +26,9 @@ class Gdcm < Formula
     python3 = Formula["python@3.8"].opt_bin/"python3"
     xy = Language::Python.major_minor_version python3
     python_include =
-      Utils.popen_read("#{python3} -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
-    python_executable = Utils.popen_read("#{python3} -c 'import sys;print(sys.executable)'").chomp
+      Utils.safe_popen_read(python3, "-c", "from distutils import sysconfig;print(sysconfig.get_python_inc(True))")
+           .chomp
+    python_executable = Utils.safe_popen_read(python3, "-c", "import sys;print(sys.executable)").chomp
 
     args = std_cmake_args + %W[
       -GNinja

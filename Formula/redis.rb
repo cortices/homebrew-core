@@ -1,22 +1,21 @@
 class Redis < Formula
   desc "Persistent key-value database, with built-in net interface"
   homepage "https://redis.io/"
-  url "http://download.redis.io/releases/redis-5.0.9.tar.gz"
-  sha256 "53d0ae164cd33536c3d4b720ae9a128ea6166ebf04ff1add3b85f1242090cb85"
+  url "http://download.redis.io/releases/redis-6.0.5.tar.gz"
+  sha256 "42cf86a114d2a451b898fcda96acd4d01062a7dbaaad2801d9164a36f898f596"
   head "https://github.com/antirez/redis.git", :branch => "unstable"
 
   bottle do
-    cellar :any_skip_relocation
-    sha256 "4d8c4759c1429c11f586bcf870f94f218d6352fd56ac5e4ee1d5dfadbc6e0304" => :catalina
-    sha256 "4cad6cbf05beaab5549a12dc66650a4936f3e468ae421c8fcf9fd38ede66c793" => :mojave
-    sha256 "ef9ac989dd55b0aae732ded463ae82e248795a77fd0f7d9021fd9c6f4fdbee73" => :high_sierra
+    cellar :any
+    sha256 "c4c025a3642417b75e69be73cce61f05042107dd52b5f549d9c21eba8d2c2c1c" => :catalina
+    sha256 "fc2ff703029e0dfceff2ecde31730b3c8766ecac2cac8dd309270c3aa7b417ae" => :mojave
+    sha256 "be205c8cecbf8691db5f06b60e9a5dccbfe1e6bef2e1676fe0dbdf109b2fdf9f" => :high_sierra
   end
 
-  def install
-    # Architecture isn't detected correctly on 32bit Snow Leopard without help
-    ENV["OBJARCH"] = "-arch #{MacOS.preferred_arch}"
+  depends_on "openssl@1.1"
 
-    system "make", "install", "PREFIX=#{prefix}", "CC=#{ENV.cc}"
+  def install
+    system "make", "install", "PREFIX=#{prefix}", "CC=#{ENV.cc}", "BUILD_TLS=yes"
 
     %w[run db/redis log].each { |p| (var/p).mkpath }
 

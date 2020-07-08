@@ -3,19 +3,24 @@ class Streamlink < Formula
 
   desc "CLI for extracting streams from various websites to a video player"
   homepage "https://streamlink.github.io/"
-  url "https://github.com/streamlink/streamlink/releases/download/1.4.0/streamlink-1.4.0.tar.gz"
-  sha256 "5499287d634c28e72ccc16a677f7873213dc6beaa4fdbe47cda7b997f1460192"
+  url "https://github.com/streamlink/streamlink/releases/download/1.5.0/streamlink-1.5.0.tar.gz"
+  sha256 "203f3e2ac724b5964f8abffa9d1e769453702294e3d03b6877c6eb49f96fc11f"
+  license "BSD-2-Clause"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "563ad8279d825a866996a36a4a4c1d8388b8275b2e622b23f5154a0b3737f9b7" => :catalina
-    sha256 "d13be5a8cc30da9845de5343ea8c94f93636d9db3fad4069cc638875dddb65c9" => :mojave
-    sha256 "9aab3a159cd7edc33f2573a58fe3a2efcfb5a188c6f45c5d1e19b7a925641a47" => :high_sierra
+    sha256 "0f649d25527c7ea11086a4c2ad754e9f49109b83115c87505d434d1881d1c4f3" => :catalina
+    sha256 "887938363ce748a588264e58b470e95ef5495341ad650ffe1eab1c4447fa74de" => :mojave
+    sha256 "992eb0c7a3b256a3f34b2fe9a7b9a4d42ef84419a9b864df8b00dd47ec5479de" => :high_sierra
   end
 
   depends_on "python@3.8"
 
   uses_from_macos "libffi"
+
+  on_linux do
+    depends_on "pkg-config" => :build
+  end
 
   resource "certifi" do
     url "https://files.pythonhosted.org/packages/b8/e2/a3a86a67c3fc8249ed305fc7b7d290ebe5e4d46ad45573884761ef4dea7b/certifi-2020.4.5.1.tar.gz"

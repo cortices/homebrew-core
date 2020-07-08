@@ -5,6 +5,7 @@ class Credstash < Formula
   homepage "https://github.com/fugue/credstash"
   url "https://github.com/fugue/credstash/releases/download/v1.17.1/credstash-1.17.1.tar.gz"
   sha256 "6c04e8734ef556ab459018da142dd0b244093ef176b3be5583e582e9a797a120"
+  license "Apache-2.0"
   head "https://github.com/fugue/credstash.git"
 
   bottle do
@@ -18,6 +19,10 @@ class Credstash < Formula
   depends_on "python@3.8"
 
   uses_from_macos "libffi"
+
+  on_linux do
+    depends_on "pkg-config" => :build
+  end
 
   resource "boto3" do
     url "https://files.pythonhosted.org/packages/2e/ed/c78be6e55442756a53c3dafe086e3c72534bfe7904e683ecca3678521f9b/boto3-1.12.39.tar.gz"

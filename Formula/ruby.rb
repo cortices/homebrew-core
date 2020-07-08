@@ -34,7 +34,7 @@ class Ruby < Formula
   end
 
   def api_version
-    Utils.popen_read("#{bin}/ruby -e 'print Gem.ruby_api_version'")
+    Utils.safe_popen_read("#{bin}/ruby", "-e", "print Gem.ruby_api_version")
   end
 
   def rubygems_bindir
@@ -203,6 +203,8 @@ class Ruby < Formula
   end
 
   def caveats
+    return unless latest_version_installed?
+
     <<~EOS
       By default, binaries installed by gem will be placed into:
         #{rubygems_bindir}

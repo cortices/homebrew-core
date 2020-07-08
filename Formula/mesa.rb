@@ -1,30 +1,28 @@
 class Mesa < Formula
-  include Language::Python::Virtualenv
   desc "Graphics Library"
   homepage "https://www.mesa3d.org/"
-  url "https://mesa.freedesktop.org/archive/mesa-20.0.5.tar.xz"
-  mirror "https://www.mesa3d.org/archive/mesa-20.0.5.tar.xz"
-  sha256 "2c56a82a28cc924e40ea49752abdf1d701c9952481f53cbc7a080271597f572e"
+  url "https://archive.mesa3d.org/mesa-20.1.2.tar.xz"
+  sha256 "283dff72814c8a80ce1ff8271e3f055895d26f4da3f4362acc49193e635780cb"
   head "https://gitlab.freedesktop.org/mesa/mesa.git"
 
   bottle do
     cellar :any
-    sha256 "0e988e72896ceb44929a702aeb1a7ae33f311c0b762b52967991cc9d7b652719" => :catalina
-    sha256 "e805a3c4ebe79a3349f14a32c2b3626332b507f7f402dbdb0dca71c47f4b74fd" => :mojave
-    sha256 "325cf4d0c5c7d9511d1edeb6f50a747a7e4453e93fd6e22a67f94f6a5a15ea9b" => :high_sierra
+    sha256 "3554b5932a65665c08e70397db4cb74c35abf8d0f4b9a6cf275f06e423bfc0aa" => :catalina
+    sha256 "cf1ff78957fe913c00b57fdda192d828682d33cbae7d11fd6cd7f41e46968141" => :mojave
+    sha256 "20bb00c5495936cb49ef2c5c17a70465fadd7d7a2ca5237a6c9085e8a5d9542f" => :high_sierra
   end
 
   depends_on "meson-internal" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
-  depends_on "python" => :build
+  depends_on "python@3.8" => :build
   depends_on "freeglut" => :test
   depends_on "expat"
   depends_on "gettext"
 
   resource "Mako" do
-    url "https://files.pythonhosted.org/packages/42/64/fc7c506d14d8b6ed363e7798ffec2dfe4ba21e14dda4cfab99f4430cba3a/Mako-1.1.2.tar.gz"
-    sha256 "3139c5d64aa5d175dbafb95027057128b5fbd05a40c53999f3905ceb53366d9d"
+    url "https://files.pythonhosted.org/packages/72/89/402d2b4589e120ca76a6aed8fee906a0f5ae204b50e455edd36eda6e778d/Mako-1.1.3.tar.gz"
+    sha256 "8195c8c1400ceb53496064314c6736719c6f25e7479cd24c77be3d9361cddc27"
   end
 
   resource "gears.c" do
@@ -33,17 +31,18 @@ class Mesa < Formula
   end
 
   def install
-    xy = Language::Python.major_minor_version "python3"
+    python3 = Formula["python@3.8"].opt_bin/"python3"
+    xy = Language::Python.major_minor_version python3
     ENV.prepend_create_path "PYTHONPATH", buildpath/"vendor/lib/python#{xy}/site-packages"
 
     resource("Mako").stage do
-      system "python3", *Language::Python.setup_install_args(buildpath/"vendor")
+      system python3, *Language::Python.setup_install_args(buildpath/"vendor")
     end
 
     resource("gears.c").stage(pkgshare.to_s)
 
     mkdir "build" do
-      system "meson", "--prefix=#{prefix}", "..", "-Dbuildtype=plain", "-Db_ndebug=true",
+      system "meson", *std_meson_args, "..", "-Dbuildtype=plain", "-Db_ndebug=true",
                       "-Dplatforms=surfaceless", "-Dglx=disabled"
       system "ninja"
       system "ninja", "install"

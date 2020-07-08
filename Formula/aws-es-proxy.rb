@@ -1,14 +1,15 @@
 class AwsEsProxy < Formula
   desc "Small proxy between HTTP client and AWS Elasticsearch"
   homepage "https://github.com/abutaha/aws-es-proxy"
-  url "https://github.com/abutaha/aws-es-proxy/archive/v1.0.tar.gz"
-  sha256 "9e4177610369f149cc64db59564e1621e06d7203d0acdaa56cdbd14c47079171"
+  url "https://github.com/abutaha/aws-es-proxy/archive/1.1.tar.gz"
+  sha256 "290ec4ef5186b94e1f416550fe8a842fce04ed10937fd0d5580470e1552d5be8"
+  license "Apache-2.0"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "45a608977ee8179e9a3356a6aec67ac28fb45a2eaa220f12ed14ab3502786671" => :catalina
-    sha256 "75ef7d6a9a21e85cc0686eb218eb22c571222432751ecc10fbb53761e17c4977" => :mojave
-    sha256 "57b9c927fbf351bf8b2b7b87bd21496ce473cd6058615cf8639621fd8d39a32d" => :high_sierra
+    sha256 "dc7b61f5e22fb14108c697fd16d8e10f1dc7c25ba4e198aea9048d5a1ab49380" => :catalina
+    sha256 "04072658dc075c931b5090ed0fc8a7d918388f3352c2752e03eb22f8cda48cb6" => :mojave
+    sha256 "12e316705d1c4730b83f9a7a31559b7968f4c3bace93569902db6a57da0b6966" => :high_sierra
   end
 
   depends_on "go" => :build
@@ -28,15 +29,14 @@ class AwsEsProxy < Formula
   end
 
   test do
-    begin
-      io = IO.popen("#{bin}/aws-es-proxy -endpoint https://dummy-host.eu-west-1.es.amazonaws.com",
-                    :err => [:child, :out])
-      sleep 2
-    ensure
-      Process.kill("SIGINT", io.pid)
-      Process.wait(io.pid)
-    end
+    address = "127.0.0.1:#{free_port}"
+    endpoint = "https://dummy-host.eu-west-1.es.amazonaws.com"
 
-    assert_match "Listening on", io.read
+    fork { exec "#{bin}/aws-es-proxy", "-listen=#{address}", "-endpoint=#{endpoint}" }
+    sleep 2
+
+    output = shell_output("curl --silent #{address}")
+    assert_match endpoint, output
+    assert_match "no such host", output
   end
 end

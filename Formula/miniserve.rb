@@ -1,8 +1,11 @@
 class Miniserve < Formula
   desc "High performance static file server"
   homepage "https://github.com/svenstaro/miniserve"
+  # Bumpable only when it doesn't use features only available in Rust Nightly.
+  # Check for resolution of https://github.com/svenstaro/miniserve/issues/291.
   url "https://github.com/svenstaro/miniserve/archive/v0.3.0.tar.gz"
   sha256 "80ee5d661730ddad14671f961b560467f3b3a9f0544b9b11dec65098eb4a1f7e"
+  license "MIT"
 
   bottle do
     cellar :any_skip_relocation
@@ -14,7 +17,7 @@ class Miniserve < Formula
   depends_on "rust"
 
   def install
-    system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    system "cargo", "install", *std_cargo_args
   end
 
   test do

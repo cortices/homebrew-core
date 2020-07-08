@@ -1,15 +1,14 @@
 class Perl < Formula
   desc "Highly capable, feature-rich programming language"
   homepage "https://www.perl.org/"
-  url "https://www.cpan.org/src/5.0/perl-5.30.2.tar.gz"
-  sha256 "66db7df8a91979eb576fac91743644da878244cf8ee152f02cd6f5cd7a731689"
-  revision 1
+  url "https://www.cpan.org/src/5.0/perl-5.32.0.tar.xz"
+  sha256 "6f436b447cf56d22464f980fac1916e707a040e96d52172984c5d184c09b859b"
   head "https://github.com/perl/perl5.git", :branch => "blead"
 
   bottle do
-    sha256 "b25dbfa43f3fea68a3acdf7f59e18a0d694ac18070ef60da431c0900baf14ba6" => :catalina
-    sha256 "8a141e61aa0ece017735ac9860d5077921618ea4397a02b42203b6f45507b9ea" => :mojave
-    sha256 "73d96330045dedca4805aac3a69f164935230b77487e20a1e326152f167a4391" => :high_sierra
+    sha256 "bc6c97521b6edf723c8ee0742aebb1954b5c8fec81bf2d96861c3f8bcc4e404d" => :catalina
+    sha256 "f09b3fefe2175b36e590ee13e7aa84d28ebcbce3ef8e252e24a0aebb752405ab" => :mojave
+    sha256 "718a54da6e3b02c33d5230776aaa54eaaac710c09cf412078014c9c50dd0ac51" => :high_sierra
   end
 
   uses_from_macos "expat"

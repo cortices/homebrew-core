@@ -2,17 +2,20 @@ class PhpAT72 < Formula
   desc "General-purpose scripting language"
   homepage "https://www.php.net/"
   # Should only be updated if the new version is announced on the homepage, https://www.php.net/
-  url "https://www.php.net/distributions/php-7.2.30.tar.xz"
-  sha256 "aa93df27b58a45d6c9800ac813245dfdca03490a918ebe515b3a70189b1bf8c3"
+  url "https://www.php.net/distributions/php-7.2.31.tar.xz"
+  mirror "https://fossies.org/linux/www/php-7.2.31.tar.xz"
+  sha256 "8beaa634bb878a96af9bc8643811ea46973f5f41ad2bfb6ab4cfd290e5a39806"
   revision 1
 
   bottle do
-    sha256 "b8bce118cc8888d59e7376d39c752ef3f8bd458173a93f4aa3a2f691689bd926" => :catalina
-    sha256 "9df0b7b66ecac16c9cb266f0a5ae67c8d02bba4a46f6a9cd0f6f79e9fd3ff5d8" => :mojave
-    sha256 "ce6eb7dd8509a2cca5ea95b28ad7f7e6dd8a15ea32e60b9e55fac7bb89ae4991" => :high_sierra
+    sha256 "88e7932c8403e83c4b7ce1a5a5a704e2b45d0618f79ab568b0e92dc795b896d4" => :catalina
+    sha256 "2d601cec4b57cefa451e9bd4892df9c8f406de09c1aaafbf7d3a9a88ab540e67" => :mojave
+    sha256 "d1383e513d27510e4e8974460756cbef14a59c1fcbcd35c9dbeb6624689ea22f" => :high_sierra
   end
 
   keg_only :versioned_formula
+
+  deprecate! :date => "2020-11-30"
 
   depends_on "httpd" => [:build, :test]
   depends_on "pkg-config" => :build
@@ -176,17 +179,18 @@ class PhpAT72 < Formula
     system "make", "install"
 
     # Allow pecl to install outside of Cellar
-    extension_dir = Utils.popen_read("#{bin}/php-config --extension-dir").chomp
+    extension_dir = Utils.safe_popen_read("#{bin}/php-config", "--extension-dir").chomp
     orig_ext_dir = File.basename(extension_dir)
     inreplace bin/"php-config", lib/"php", prefix/"pecl"
     inreplace "php.ini-development", %r{; ?extension_dir = "\./"},
       "extension_dir = \"#{HOMEBREW_PREFIX}/lib/php/pecl/#{orig_ext_dir}\""
 
     # Use OpenSSL cert bundle
+    openssl = Formula["openssl@1.1"]
     inreplace "php.ini-development", /; ?openssl\.cafile=/,
-      "openssl.cafile = \"#{etc}/openssl@1.1/cert.pem\""
+      "openssl.cafile = \"#{openssl.pkgetc}/cert.pem\""
     inreplace "php.ini-development", /; ?openssl\.capath=/,
-      "openssl.capath = \"#{etc}/openssl@1.1/certs\""
+      "openssl.capath = \"#{openssl.pkgetc}/certs\""
 
     config_files = {
       "php.ini-development"   => "php.ini",
@@ -227,7 +231,7 @@ class PhpAT72 < Formula
     # Custom location for extensions installed via pecl
     pecl_path = HOMEBREW_PREFIX/"lib/php/pecl"
     ln_s pecl_path, prefix/"pecl" unless (prefix/"pecl").exist?
-    extension_dir = Utils.popen_read("#{bin}/php-config --extension-dir").chomp
+    extension_dir = Utils.safe_popen_read("#{bin}/php-config", "--extension-dir").chomp
     php_basename = File.basename(extension_dir)
     php_ext_dir = opt_prefix/"lib/php"/php_basename
 

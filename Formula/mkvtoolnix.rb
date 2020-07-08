@@ -1,13 +1,14 @@
 class Mkvtoolnix < Formula
   desc "Matroska media files manipulation tools"
   homepage "https://mkvtoolnix.download/"
-  url "https://mkvtoolnix.download/sources/mkvtoolnix-45.0.0.tar.xz"
-  sha256 "995208f38e5d77da326ec2718a820357219856d8e375081e5d8d7ab9239b6d66"
+  url "https://mkvtoolnix.download/sources/mkvtoolnix-48.0.0.tar.xz"
+  sha256 "f22c443506ce630bb96f9ef1f704b02b0137883fa74babab1632f68679900a83"
+  license "GPL-2.0"
 
   bottle do
     cellar :any
-    sha256 "f5aa101115ee58b134d63c311ac465f09d5c064f52756d40020ff3df0fafb893" => :catalina
-    sha256 "6ab0b85722bf4eaf0756cabd9b6fa3a3ec8499b6d10cc0c7004f23f6e10f0e22" => :mojave
+    sha256 "9774ad0be33ca99cc60d8c8fcc7d2de9df88a7c235dc6aeaf45da47f1234664a" => :catalina
+    sha256 "a429761103ac50fa00a7f34967ccee656889c16047a67b81bb860f94468884b2" => :mojave
   end
 
   head do
@@ -18,11 +19,11 @@ class Mkvtoolnix < Formula
   end
 
   depends_on "docbook-xsl" => :build
-  depends_on "fmt" => :build
   depends_on "pkg-config" => :build
   depends_on "pugixml" => :build
   depends_on "boost"
   depends_on "flac"
+  depends_on "fmt"
   depends_on "gettext"
   depends_on "libebml"
   depends_on "libmagic"

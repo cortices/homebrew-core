@@ -3,15 +3,16 @@ class AwsGoogleAuth < Formula
 
   desc "Acquire AWS credentials using Google Apps"
   homepage "https://github.com/cevoaustralia/aws-google-auth"
-  url "https://github.com/cevoaustralia/aws-google-auth/archive/0.0.35.tar.gz"
-  sha256 "9dee6cc48ae4d150193c60ececc968e6e7317eee3cac66b6d8593ebd6c819ed5"
+  url "https://github.com/cevoaustralia/aws-google-auth/archive/0.0.36.tar.gz"
+  sha256 "c880633b2813b3fd2312fd1301a8927ebc7b13c3405932bd0ec760cecfb7c780"
+  license "MIT"
   head "https://github.com/cevoaustralia/aws-google-auth.git"
 
   bottle do
     cellar :any
-    sha256 "249b2968b5c6c21a5ae511fe47087f38fad3fa40ce617628ebc75ad43d6d0c8c" => :catalina
-    sha256 "d739c4fab55b1c76316c33262788217cdc50dac00207d279aa99f0bd652f1146" => :mojave
-    sha256 "2a34df761955d6f550ee8cdc6fb77eb103633362f7baec5bd5c92cf77dbc9f35" => :high_sierra
+    sha256 "1d6890e0d3fd5e514d91db206c47b798ee5c5411a25cf2cd2eda8cf4abfc4806" => :catalina
+    sha256 "a1da781b800a1a533e2b6afd3443f77b04a952da872320732c16b1bab858a4a5" => :mojave
+    sha256 "371f6acaf6ce534b1a7d6569ea5fb02d05a0da5818b6f0e7097edb91ebdc5a66" => :high_sierra
   end
 
   depends_on "freetype"
@@ -21,6 +22,10 @@ class AwsGoogleAuth < Formula
   uses_from_macos "libffi"
   uses_from_macos "libxml2"
   uses_from_macos "libxslt"
+
+  on_linux do
+    depends_on "pkg-config" => :build
+  end
 
   resource "soupsieve" do
     url "https://files.pythonhosted.org/packages/15/53/3692c565aea19f7d9dd696fee3d0062782e9ad5bf9535267180511a15967/soupsieve-2.0.tar.gz"

@@ -1,14 +1,14 @@
 class Unrar < Formula
   desc "Extract, view, and test RAR archives"
   homepage "https://www.rarlab.com/"
-  url "https://www.rarlab.com/rar/unrarsrc-5.9.2.tar.gz"
-  sha256 "73d3baf18cf0a197976af2794a848893c35e7d42cee0ff364c89d2e476ebdaa6"
+  url "https://www.rarlab.com/rar/unrarsrc-5.9.4.tar.gz"
+  sha256 "3d010d14223e0c7a385ed740e8f046edcbe885e5c22c5ad5733d009596865300"
 
   bottle do
     cellar :any
-    sha256 "d419ab2c23760fd3d53c9d64bbcdcf0302a38f24cd3e7fd3f87825b4b19feeda" => :catalina
-    sha256 "d537112798eac8eca1f7f2f1fd14371c0930ab0d5c4aa9fe5d7e5017be94c01d" => :mojave
-    sha256 "fc090e0967acbe5d14b62f1ae5b40520e335f4402d7c99ce7034153df5313ff4" => :high_sierra
+    sha256 "90e0f209046471dda292a622ded80ed410e237cb7fc8e1d2653f0d57c470fc6b" => :catalina
+    sha256 "a45568c9d67db8866971aec111e9e6d9d606549099f60240f2cf7c7096680270" => :mojave
+    sha256 "ca9a590d0bce2de6e35ce02fdc7a6bb2d32265a945949e278fb7ae4c8d3c2dca" => :high_sierra
   end
 
   def install
@@ -18,12 +18,12 @@ class Unrar < Formula
     inreplace "makefile", "libunrar.so", "libunrar.dylib"
 
     system "make"
+    bin.install "unrar"
+
     # Explicitly clean up for the library build to avoid an issue with an
     # apparent implicit clean which confuses the dependencies.
     system "make", "clean"
     system "make", "lib"
-
-    bin.install "unrar"
     lib.install "libunrar.dylib"
   end
 

@@ -1,14 +1,14 @@
 class Sbcl < Formula
   desc "Steel Bank Common Lisp system"
   homepage "http://www.sbcl.org/"
-  url "https://downloads.sourceforge.net/project/sbcl/sbcl/2.0.3/sbcl-2.0.3-source.tar.bz2"
-  sha256 "b5543f123214b2023ff5fc32dfd00b6cfeabd92c8edb33ad208842c4fd642f00"
+  url "https://downloads.sourceforge.net/project/sbcl/sbcl/2.0.6/sbcl-2.0.6-source.tar.bz2"
+  sha256 "fd92d64c1d97cc4f42fe3dcad2b183bcb225d01cdba4461634926f2f70adddae"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "f1ca303a88033610fd31abd29a952259865166a8c615a9923f275eb2ff40a71d" => :catalina
-    sha256 "ed15b1693ae5fd5a2f34d7e99ffb289848908d95d153d60b586af09be8aa09ad" => :mojave
-    sha256 "cec4aad1f57b20854804815674165afa6dc76be61b8bfa290c93863d04a6de51" => :high_sierra
+    sha256 "a1a0712251e374d34d8b6a8c456ed45f24f94b1b7d5f90d237e4a54ea92f350b" => :catalina
+    sha256 "2dfda3f01b4c7adb5c0ea65af79bbf164d8008bae56345242fee1be2b65c7556" => :mojave
+    sha256 "e487ad7b1a86d025dd11bda24f780768c448012bae30199978ddd2ed2f2535e3" => :high_sierra
   end
 
   uses_from_macos "zlib"
@@ -34,7 +34,7 @@ class Sbcl < Formula
     end
 
     tmpdir = Pathname.new(Dir.mktmpdir)
-    tmpdir.install resource("bootstrap64")
+    resource("bootstrap64").unpack tmpdir
 
     command = "#{tmpdir}/src/runtime/sbcl"
     core = "#{tmpdir}/output/sbcl.core"

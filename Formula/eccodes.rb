@@ -1,14 +1,14 @@
 class Eccodes < Formula
   desc "Decode and encode messages in the GRIB 1/2 and BUFR 3/4 formats"
   homepage "https://confluence.ecmwf.int/display/ECC"
-  url "https://software.ecmwf.int/wiki/download/attachments/45757960/eccodes-2.17.0-Source.tar.gz"
-  sha256 "762d6b71993b54f65369d508f88e4c99e27d2c639c57a5978c284c49133cc335"
+  url "https://software.ecmwf.int/wiki/download/attachments/45757960/eccodes-2.18.0-Source.tar.gz"
+  sha256 "d88943df0f246843a1a062796edbf709ef911de7269648eef864be259e9704e3"
   revision 1
 
   bottle do
-    sha256 "4e6dbef0ba2bac100a7b7da2e13085156910d3502d39c55cc09cfe1f6a6c966a" => :catalina
-    sha256 "09b210f83213b211be709e91c9c208b2881a57e0155dc3a5708b95d930141d8a" => :mojave
-    sha256 "e9d09fbe285c1e85e2481e992a2a494d814030c8346e9eb8ab3080420a7d6b8c" => :high_sierra
+    sha256 "752b23e86c8c5c54d1870ff3cee3adbb4f2bd3eb552c6a87073ba3867107354f" => :catalina
+    sha256 "7b0366448047c170843a0519611acb03a6cdf10c6f67df6b6813514a8f2d8854" => :mojave
+    sha256 "cf12c6c0ae154b545e8ca764a635a6df15ac0fba85eac7143a6564ca740283ed" => :high_sierra
   end
 
   depends_on "cmake" => :build
@@ -18,6 +18,10 @@ class Eccodes < Formula
   depends_on "netcdf"
 
   def install
+    # Fix for GCC 10, remove with next version
+    # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=957159
+    ENV.prepend "FFLAGS", "-fallow-argument-mismatch"
+
     inreplace "CMakeLists.txt", "find_package( OpenJPEG )", ""
 
     mkdir "build" do
@@ -25,6 +29,11 @@ class Eccodes < Formula
                             "-DENABLE_PYTHON=OFF", *std_cmake_args
       system "make", "install"
     end
+
+    # Avoid references to Homebrew shims directory
+    inreplace include/"eccodes_ecbuild_config.h", HOMEBREW_LIBRARY/"Homebrew/shims/mac/super/clang", "/usr/bin/clang"
+    inreplace lib/"pkgconfig/eccodes.pc", HOMEBREW_LIBRARY/"Homebrew/shims/mac/super/clang", "/usr/bin/clang"
+    inreplace lib/"pkgconfig/eccodes_f90.pc", HOMEBREW_LIBRARY/"Homebrew/shims/mac/super/clang", "/usr/bin/clang"
   end
 
   test do

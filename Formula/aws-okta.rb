@@ -3,6 +3,7 @@ class AwsOkta < Formula
   homepage "https://github.com/segmentio/aws-okta"
   url "https://github.com/segmentio/aws-okta/archive/v1.0.2.tar.gz"
   sha256 "bc2b2ff383f3b7e63acbea6b0dc9131bb30ac101885101a6d274997d5c3716da"
+  license "MIT"
 
   bottle do
     cellar :any_skip_relocation
@@ -12,6 +13,11 @@ class AwsOkta < Formula
   end
 
   depends_on "go" => :build
+
+  on_linux do
+    depends_on "pkg-config" => :build
+    depends_on "libusb"
+  end
 
   def install
     system "go", "build", "-ldflags", "-s -w -X main.Version=#{version}", "-trimpath", "-o", bin/"aws-okta"

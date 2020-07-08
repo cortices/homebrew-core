@@ -4,8 +4,8 @@ class Cmake < Formula
   head "https://gitlab.kitware.com/cmake/cmake.git"
 
   stable do
-    url "https://github.com/Kitware/CMake/releases/download/v3.17.1/cmake-3.17.1.tar.gz"
-    sha256 "3aa9114485da39cbd9665a0bfe986894a282d5f0882b1dea960a739496620727"
+    url "https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3.tar.gz"
+    sha256 "0bd60d512275dc9f6ef2a2865426a184642ceb3761794e6b65bff233b91d8c40"
 
     # Allows CMAKE_FIND_FRAMEWORKS to work with CMAKE_FRAMEWORK_PATH, which brew sets.
     # Remove with 3.18.0.
@@ -13,16 +13,28 @@ class Cmake < Formula
       url "https://gitlab.kitware.com/cmake/cmake/-/commit/c841d43d70036830c9fe16a6dbf1f28acf49d7e3.diff"
       sha256 "87de737abaf5f8c071abc4a4ae2e9cccced6a9780f4066b32ce08a9bc5d8edd5"
     end
+
+    # Adds macOS 11.0 compatibility.
+    # Remove with 3.18.0.
+    patch do
+      url "https://gitlab.kitware.com/cmake/cmake/-/commit/a0c4c27443afe1c423c08063e2eaf96ffa2f54fb.diff"
+      sha256 "7b84bc0dbb71c620939fb1e354f671e1d0007c9c8060ed3f2afe54a11f5e578c"
+    end
   end
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "3c66f4227a1a2756a62b698e83b8213911ade95c72b6f4a33aa9743648c603ab" => :catalina
-    sha256 "c62e8f5a02515337214c49807f55c47f4339a9afd8b2d62d6ab4450d03f2c689" => :mojave
-    sha256 "b3c4f550b6b8eb39ca99d94107d3d106d5700535922265d26b7185b80a818b09" => :high_sierra
+    rebuild 1
+    sha256 "8546864336108d217502a797033a72568b0325bf739495dff49c39d7f429fd07" => :catalina
+    sha256 "a4e96287fc974242d6399ba2e3e040cfc99e7c1f574873e95491c88244744306" => :mojave
+    sha256 "32321684bf5d7d4270db1a6c8fe2bb4c5f18e4a3a00fc7b3c628939c842301ff" => :high_sierra
   end
 
   depends_on "sphinx-doc" => :build
+
+  on_linux do
+    depends_on "openssl@1.1"
+  end
 
   # The completions were removed because of problems with system bash
 

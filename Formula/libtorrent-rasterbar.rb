@@ -1,14 +1,14 @@
 class LibtorrentRasterbar < Formula
   desc "C++ bittorrent library with Python bindings"
   homepage "https://www.libtorrent.org/"
-  url "https://github.com/arvidn/libtorrent/releases/download/libtorrent-1_2_6/libtorrent-rasterbar-1.2.6.tar.gz"
-  sha256 "8f69befe449f7211afc665726d24fde62f019800b060b5c6c9804793929a4407"
+  url "https://github.com/arvidn/libtorrent/releases/download/libtorrent_1_2_7/libtorrent-rasterbar-1.2.7.tar.gz"
+  sha256 "bc00069e65c0825cbe1eee5cdd26f94fcd9a621c4e7f791810b12fab64192f00"
 
   bottle do
     cellar :any
-    sha256 "607246a5ff355aa8dd2c9774923235dacb5b7aa973325f1a1eaf92e8763bb182" => :catalina
-    sha256 "4b67da54a4a7df152e7c8e2d19bc46ff4a2530a42097f936c40c1fc5bb9e41ff" => :mojave
-    sha256 "87449b6764ea679130f0b3be8913277fd36d122fb766e738b7bafba17bac117b" => :high_sierra
+    sha256 "ebcf3c671f25bf16e9643b647e2dff1339458d7b6b4e28fbde07e0e54abe29fd" => :catalina
+    sha256 "68bd2a4ed0dd30a61b4bf5667eb21a01e3bc617a6bcb55a5ea5cdbea8954b50e" => :mojave
+    sha256 "1f25a63a7e555b4f4c9f0491e363aa2ba8d5eb134dc3f65a1df6c60cc926c187" => :high_sierra
   end
 
   head do
@@ -23,6 +23,8 @@ class LibtorrentRasterbar < Formula
   depends_on "boost-python3"
   depends_on "openssl@1.1"
   depends_on "python@3.8"
+
+  conflicts_with "libtorrent-rakshasa", :because => "they both use the same libname"
 
   def install
     pyver = Language::Python.major_minor_version(Formula["python@3.8"].bin/"python3").to_s.delete(".")

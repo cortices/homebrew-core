@@ -4,6 +4,7 @@ class BoostPython3 < Formula
   url "https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.bz2"
   mirror "https://dl.bintray.com/homebrew/mirror/boost_1_72_0.tar.bz2"
   sha256 "59c9b274bc451cf91a9ba1dd2c7fdcaf5d60b1b3aa83f2c9fa143417cc660722"
+  license "BSL-1.0"
   revision 1
   head "https://github.com/boostorg/boost.git"
 
@@ -88,8 +89,8 @@ class BoostPython3 < Formula
       }
     EOS
 
-    pyincludes = Utils.popen_read("#{Formula["python@3.8"].opt_bin}/python3-config --includes").chomp.split(" ")
-    pylib = Utils.popen_read("#{Formula["python@3.8"].opt_bin}/python3-config --ldflags --embed").chomp.split(" ")
+    pyincludes = shell_output("#{Formula["python@3.8"].opt_bin}/python3-config --includes").chomp.split(" ")
+    pylib = shell_output("#{Formula["python@3.8"].opt_bin}/python3-config --ldflags --embed").chomp.split(" ")
     pyver = Language::Python.major_minor_version(Formula["python@3.8"].opt_bin/"python3").to_s.delete(".")
 
     system ENV.cxx, "-shared", "hello.cpp", "-L#{lib}", "-lboost_python#{pyver}", "-o",

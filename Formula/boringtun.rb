@@ -3,6 +3,7 @@ class Boringtun < Formula
   homepage "https://github.com/cloudflare/boringtun"
   url "https://github.com/cloudflare/boringtun/archive/v0.3.0.tar.gz"
   sha256 "1107b0170a33769db36876334261924edc71dfc1eb00f9b464c7d2ad6d5743d3"
+  license "BSD-3-Clause"
   head "https://github.com/cloudflare/boringtun.git"
 
   bottle do
@@ -15,7 +16,7 @@ class Boringtun < Formula
   depends_on "rust" => :build
 
   def install
-    system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    system "cargo", "install", *std_cargo_args
   end
 
   test do

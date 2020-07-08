@@ -5,36 +5,35 @@ class Vault < Formula
   desc "Secures, stores, and tightly controls access to secrets"
   homepage "https://vaultproject.io/"
   url "https://github.com/hashicorp/vault.git",
-      :tag      => "v1.4.0",
-      :revision => "d808ace758b9bac5c84a9634ffbfae43c5f5a3ad"
+      :tag      => "v1.4.3",
+      :revision => "491533b63ec9c1343eac3a24d8a7558185a0acb7"
+  license "MPL-2.0"
   head "https://github.com/hashicorp/vault.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "1c4f878351dc096f0e0d51b54ae0380780d949e7aece9f08d7f205cb6c6391d6" => :catalina
-    sha256 "c33752ff38c1578c85044087f70fe66dd5d615ef9fb98536492d857f0cd154b5" => :mojave
-    sha256 "9c1fa0610b597f5a3dce30415aa634b5c5381376f48774b2bd3e12b9c3434b6c" => :high_sierra
+    sha256 "f1da98de5119ba3ce6ffb11035b61363f352c609dd41c45180de4871a94d8a0d" => :catalina
+    sha256 "9356e04df17bcb53842b27282f6247e460ef1db55673c67c8678e3c0b36ed3b6" => :mojave
+    sha256 "d3d99896a98b9b1dd9826bd692ad136caa45d9a7e2d460cca722d8f164a0b4ab" => :high_sierra
   end
 
-  depends_on "go@1.13" => :build
+  depends_on "go" => :build
   depends_on "gox" => :build
+  depends_on "node@10" => :build
+  depends_on "yarn" => :build
 
   def install
     ENV["GOPATH"] = buildpath
-
-    # GOPRIVATE should be removed when v1.4.1 is released.
-    #
-    # https://github.com/macports/macports-ports/pull/6818
-    # https://github.com/hashicorp/vault/issues/8696
-    ENV["GOPRIVATE"] = "github.com/hashicorp/vault-plugin*"
 
     contents = buildpath.children - [buildpath/".brew_home"]
     (buildpath/"src/github.com/hashicorp/vault").install contents
 
     (buildpath/"bin").mkpath
 
+    ENV.prepend_path "PATH", buildpath/"bin"
+
     cd "src/github.com/hashicorp/vault" do
-      system "make", "dev"
+      system "make", "bootstrap", "static-dist", "dev-ui"
       bin.install "bin/vault"
       prefix.install_metafiles
     end

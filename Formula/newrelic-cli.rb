@@ -1,15 +1,17 @@
 class NewrelicCli < Formula
   desc "The New Relic Command-line Interface"
   homepage "https://github.com/newrelic/newrelic-cli"
-  url "https://github.com/newrelic/newrelic-cli/archive/v0.6.2.tar.gz"
-  sha256 "603bf5b23e8f986085596b0728503eaa46d41cb31d1c3ac9f1988ac7d48219ec"
+  url "https://github.com/newrelic/newrelic-cli/archive/v0.9.0.tar.gz"
+  sha256 "4c64549baaefae241ae8ff152e600e6092f33a1e1525a39a323cc69e459c66cd"
+  license "Apache-2.0"
   head "https://github.com/newrelic/newrelic-cli.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "405e969bbcd15ab96b6e81730a21f965f64641a3707e953185626bbfe9b7ed5b" => :catalina
-    sha256 "82b1a5d4adadb7df554a79e3b173705fd74fdb015311918b3ec18ccc56ad64be" => :mojave
-    sha256 "afbf56cf71dd4ddf833e00d3ad766fddcc0edd2c89318b6a600766d6362c6c4e" => :high_sierra
+    rebuild 1
+    sha256 "d3461f9cb5de529d9f21edcbc6c37fda1e5f679ae4d68d427c6638acf5d33323" => :catalina
+    sha256 "b92c372e43878215759ad43a2ba0ef5f4cc5b562bd3222814aef765a3d185e7a" => :mojave
+    sha256 "fd6dec2387f7bf2e7872ce8378be318f14642d1a5905e616e8bf2c594b96b0dd" => :high_sierra
   end
 
   depends_on "go" => :build
@@ -19,9 +21,9 @@ class NewrelicCli < Formula
     system "make", "compile-only"
     bin.install "bin/darwin/newrelic"
 
-    output = Utils.popen_read("#{bin}/newrelic completion --shell bash")
+    output = Utils.safe_popen_read("#{bin}/newrelic", "completion", "--shell", "bash")
     (bash_completion/"newrelic").write output
-    output = Utils.popen_read("#{bin}/newrelic completion --shell zsh")
+    output = Utils.safe_popen_read("#{bin}/newrelic", "completion", "--shell", "zsh")
     (zsh_completion/"_newrelic").write output
   end
 

@@ -3,12 +3,13 @@ class Chromaprint < Formula
   homepage "https://acoustid.org/chromaprint"
   url "https://github.com/acoustid/chromaprint/releases/download/v1.5.0/chromaprint-1.5.0.tar.gz"
   sha256 "573a5400e635b3823fc2394cfa7a217fbb46e8e50ecebd4a61991451a8af766a"
+  revision 3
 
   bottle do
     cellar :any
-    sha256 "a708aa303446e28fb91b940714eef17db93dbbdb7e164b6623762c80829bd10f" => :catalina
-    sha256 "7459da9ccc704fe6033e76da92c7c26df0da349caf7c2f18f5b987d5991378a9" => :mojave
-    sha256 "a7c304145c854c03a8016d8ec9bd48d5d967d786eb2e37013eaa07e75085a9aa" => :high_sierra
+    sha256 "8693666d997e651672c56e619fb9a024d7f839748625cf481028600010f37ab3" => :catalina
+    sha256 "eebfcab3bf0e6534a89b8a69c2cfa3d89b4c4f6114351e8cc3a368c4220d31b5" => :mojave
+    sha256 "f47fb0b6d7cb0f7b6f974a8ec2f85c9c1afe1cbb553a87dbf0c47742f5db7e72" => :high_sierra
   end
 
   depends_on "cmake" => :build

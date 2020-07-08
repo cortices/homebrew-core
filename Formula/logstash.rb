@@ -1,8 +1,8 @@
 class Logstash < Formula
   desc "Tool for managing events and logs"
   homepage "https://www.elastic.co/products/logstash"
-  url "https://artifacts.elastic.co/downloads/logstash/logstash-oss-7.6.2.tar.gz"
-  sha256 "cc903f03700b8f381a84e361b8f53d867bba367c20319d5040a8b5b9af887c41"
+  url "https://artifacts.elastic.co/downloads/logstash/logstash-oss-7.8.0.tar.gz"
+  sha256 "48b59d2b20f1b0bd21cbf3aa719ff51541a16166bca0d8298bb762e23a129d42"
   head "https://github.com/elastic/logstash.git"
 
   bottle :unneeded
@@ -20,10 +20,10 @@ class Logstash < Formula
     end
 
     inreplace "bin/logstash",
-              %r{^\. "\$\(cd `dirname \${SOURCEPATH}`\/\.\.; pwd\)\/bin\/logstash\.lib\.sh\"},
+              %r{^\. "\$\(cd `dirname \$\{SOURCEPATH\}`/\.\.; pwd\)/bin/logstash\.lib\.sh"},
               ". #{libexec}/bin/logstash.lib.sh"
     inreplace "bin/logstash-plugin",
-              %r{^\. "\$\(cd `dirname \$0`\/\.\.; pwd\)\/bin\/logstash\.lib\.sh\"},
+              %r{^\. "\$\(cd `dirname \$0`/\.\.; pwd\)/bin/logstash\.lib\.sh"},
               ". #{libexec}/bin/logstash.lib.sh"
     inreplace "bin/logstash.lib.sh",
               /^LOGSTASH_HOME=.*$/,

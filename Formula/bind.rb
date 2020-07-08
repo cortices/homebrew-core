@@ -8,15 +8,16 @@ class Bind < Formula
   # "version_scheme" because someone upgraded to 9.15.0, and required a
   # downgrade.
 
-  url "https://downloads.isc.org/isc/bind9/9.16.2/bind-9.16.2.tar.xz"
-  sha256 "d9e5b77cfca5ccad97f19cddc87128758ec15c16e6585000c6b2f84fc225993f"
+  url "https://downloads.isc.org/isc/bind9/9.16.4/bind-9.16.4.tar.xz"
+  sha256 "7522088d3daac8bcabaae37998178e09139ef5ccae6631cb1d8a625b770f370a"
+  revision 1
   version_scheme 1
   head "https://gitlab.isc.org/isc-projects/bind9.git"
 
   bottle do
-    sha256 "a099e7511a386ad5c8b10d74c1fc98f73405efbefa01188e2e42db423c05a410" => :catalina
-    sha256 "557e229d3d80de4454271bd8241828c3729c3526d89c06e956b09d4e2d84b80c" => :mojave
-    sha256 "a87ef510f4bd1c1739567bde6d0f62c71d0428285e8abbbb0fd257cb07a4bd51" => :high_sierra
+    sha256 "32c69f20da6f24f400e5b61898c1815aea58422590e5b4261a29778770359a80" => :catalina
+    sha256 "50b199ff7da9221a4bde549bff8e2ae736ebe857db5275b762c3dca2e909a4ff" => :mojave
+    sha256 "18de1ce65e54f8deb367a45f9c34c57a90bc1595c4e2268d59903ce178b028fe" => :high_sierra
   end
 
   depends_on "pkg-config" => :build

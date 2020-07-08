@@ -1,22 +1,23 @@
 class Janet < Formula
   desc "Dynamic language and bytecode vm"
   homepage "https://janet-lang.org"
-  url "https://github.com/janet-lang/janet/archive/v1.8.1.tar.gz"
-  sha256 "0f3ee438fb159d3081b38506e51df6406b355eb241c662ca1a3529dac0140b92"
+  url "https://github.com/janet-lang/janet/archive/v1.10.1.tar.gz"
+  sha256 "5d830a01ced5b97f99b9c71a9d869751df72266a88eb7b3ff7a8bff9da39afde"
+  license "MIT"
   head "https://github.com/janet-lang/janet.git"
 
   bottle do
     cellar :any
-    sha256 "3b89c9c2a8bc3e5715dfcc62008935550a198b5fcdff82519109e1d1182adabf" => :catalina
-    sha256 "4774c1eb6c723346ab3851f3ee40b36f65467f48784424f59c45c198061a6890" => :mojave
-    sha256 "9761149bb17d9c4adf4662034473972ef25d1b57c2e242fa4a1cdbccaa5d6466" => :high_sierra
+    sha256 "a766c0f5fa6d207c030813e03abf3b09ab13e8dcb6a5ce4bad3912017435685b" => :catalina
+    sha256 "b6d8f7dd18cf760657d46121b6290402008d4ac21a03a1bac88ff6fb697976dd" => :mojave
+    sha256 "6ab63abf4e3f1cd5d4c5bacb367c779bf776153c37c4bfad3c85cf02b52678dd" => :high_sierra
   end
 
   depends_on "meson" => :build
   depends_on "ninja" => :build
 
   def install
-    system "meson", "setup", "build", "--buildtype=release", "--prefix=#{prefix}"
+    system "meson", "setup", "build", "--buildtype=release", *std_meson_args
     cd "build" do
       system "ninja"
       system "ninja", "install"

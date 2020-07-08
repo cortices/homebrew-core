@@ -2,20 +2,20 @@ class Volta < Formula
   desc "JavaScript toolchain manager for reproducible environments"
   homepage "https://volta.sh"
   url "https://github.com/volta-cli/volta.git",
-    :revision => "10a9bee148d2a833069d6cc27aea56af3092dc6e",
-    :tag      => "v0.7.2"
+    :revision => "42caba1cc64b0e2946b9dc2db8b570fc55aef298",
+    :tag      => "v0.8.3"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "78a293f90dcce1e7f356efea490af6afdca1234627bd66af90c66a7af4fe2d53" => :catalina
-    sha256 "7468da511debfc4a7bc1138086971df9890c241affc5678bfd9e06149801edf1" => :mojave
-    sha256 "482b0e1808cad21b044066081d278c561f4952ab0c3b5c8c9cbdfcb8044e654d" => :high_sierra
+    sha256 "d027df0f390424da752160dc8587a2f873af9f60b19c785ed227584e21e079ea" => :catalina
+    sha256 "7ab21021eed69d9a95646425b6e95fe67b1d3e65b2a7f60525496a63f037a2f0" => :mojave
+    sha256 "238005d3d2d5164f237ae6c866afd76f4d5805d8f8bc813b3983745dbcf54e73" => :high_sierra
   end
 
   depends_on "rust" => :build
 
   def install
-    system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    system "cargo", "install", *std_cargo_args
   end
 
   test do

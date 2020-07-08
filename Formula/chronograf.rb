@@ -3,15 +3,16 @@ require "language/node"
 class Chronograf < Formula
   desc "Open source monitoring and visualization UI for the TICK stack"
   homepage "https://docs.influxdata.com/chronograf/latest/"
-  url "https://github.com/influxdata/chronograf/archive/1.8.2.tar.gz"
-  sha256 "cfa8006fe0fc56083b53006f94963549f574cb61a623644f039e981144a19617"
+  url "https://github.com/influxdata/chronograf/archive/1.8.4.tar.gz"
+  sha256 "9f3564d382abe96077e4f819702d43b2152ff2891899278605f2bb7897417b8c"
   head "https://github.com/influxdata/chronograf.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "0ce63c15dbc1f0b1e8c98a73f80ffaad51e60169b752324dea24b0479f146a1a" => :catalina
-    sha256 "df8e6274b193e2f04385d3c9659141dcfae3ed9502808e1946e9dcc74a45bcbe" => :mojave
-    sha256 "7ed386bd51753ee5ca9999809c4a0bba47cd7efee1885df66a39fd1d2790630a" => :high_sierra
+    rebuild 1
+    sha256 "bb94100b131d595795daaa913503df8470339110cfa9c42a243c7d1e6bd7d6ec" => :catalina
+    sha256 "3a481544f2623a2335ab1b745b141b22defc20c61965d1f7cd100c7d694f6c7f" => :mojave
+    sha256 "dd7c5b3ddfe820150daec375f5a127e2bd297c89cce0b7fbb04769bbbcc22cd7" => :high_sierra
   end
 
   depends_on "go" => :build
@@ -22,22 +23,15 @@ class Chronograf < Formula
   depends_on "kapacitor"
 
   def install
-    ENV["GOPATH"] = buildpath
-    ENV.prepend_create_path "PATH", buildpath/"bin"
     Language::Node.setup_npm_environment
-    chronograf_path = buildpath/"src/github.com/influxdata/chronograf"
-    chronograf_path.install buildpath.children
 
-    cd chronograf_path do
-      cd "ui" do # fix node 12 compatibility
-        system "yarn", "upgrade", "parcel@1.11.0", "node-sass@4.12.0"
-      end
-      system "make", "dep"
-      system "make", ".jssrc"
-      system "make", "chronograf"
-      bin.install "chronograf"
-      prefix.install_metafiles
+    cd "ui" do # fix compatibility with the latest node
+      system "yarn", "upgrade", "parcel@1.11.0"
     end
+    system "make", "dep"
+    system "make", ".jssrc"
+    system "make", "chronograf"
+    bin.install "chronograf"
   end
 
   plist_options :manual => "chronograf"

@@ -1,14 +1,14 @@
 class PostgresqlAT10 < Formula
   desc "Object-relational database system"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v10.12/postgresql-10.12.tar.bz2"
-  sha256 "388f7f888c4fbcbdf424ec2bce52535195b426010b720af7bea767e23e594ae7"
-  revision 1
+  url "https://ftp.postgresql.org/pub/source/v10.13/postgresql-10.13.tar.bz2"
+  sha256 "4d701f450cd92ffb123cf6c296e9656abbc2ab7ea6507894ff1e2475ae0754e1"
+  revision 3
 
   bottle do
-    sha256 "c840ef62b81473eba5aa76ed93105a44e311b0fbc95c3a69398bc116aaf3b3aa" => :catalina
-    sha256 "91b135218bc991faff6497dddd827af085fa9ca5845b2c91514dc8ddf7962ea5" => :mojave
-    sha256 "6c3c8da0af13a3c95c1ff8645185320622b79985399b2ddc89d2db299472922a" => :high_sierra
+    sha256 "c812a9a2c22c61cbf408572a1a038ae5bac1c745eba15df0b0edf93543844813" => :catalina
+    sha256 "e4eb27c6604afda16097707ece291b7e4ce15d55f20e489c3a9d7e7d9bcc14da" => :mojave
+    sha256 "63157238b665f29e47a1a27aab8d707279d0d8dda4a60540c57ff804ec5c7a2f" => :high_sierra
   end
 
   keg_only :versioned_formula
@@ -21,10 +21,11 @@ class PostgresqlAT10 < Formula
   uses_from_macos "libxslt"
   uses_from_macos "perl"
 
-  def install
-    # avoid adding the SDK library directory to the linker search path
-    ENV["XML2_CONFIG"] = "xml2-config --exec-prefix=/usr"
+  on_linux do
+    depends_on "util-linux"
+  end
 
+  def install
     ENV.prepend "LDFLAGS", "-L#{Formula["openssl@1.1"].opt_lib} -L#{Formula["readline"].opt_lib}"
     ENV.prepend "CPPFLAGS", "-I#{Formula["openssl@1.1"].opt_include} -I#{Formula["readline"].opt_include}"
 
@@ -45,21 +46,13 @@ class PostgresqlAT10 < Formula
       --with-openssl
       --with-pam
       --with-perl
+      --with-tcl
       --with-uuid=e2fs
     ]
 
-    # The CLT is required to build Tcl support on 10.7 and 10.8 because
-    # tclConfig.sh is not part of the SDK
-    args << "--with-tcl"
-    if File.exist?("#{MacOS.sdk_path}/System/Library/Frameworks/Tcl.framework/tclConfig.sh")
-      args << "--with-tclconfig=#{MacOS.sdk_path}/System/Library/Frameworks/Tcl.framework"
-    end
-
-    # As of Xcode/CLT 10.x the Perl headers were moved from /System
-    # to inside the SDK, so we need to use `-iwithsysroot` instead
-    # of `-I` to point to the correct location.
-    # https://www.postgresql.org/message-id/153558865647.1483.573481613491501077%40wrigleys.postgresql.org
-    ENV.prepend "LDFLAGS", "-R#{lib}/postgresql"
+    # PostgreSQL by default uses xcodebuild internally to determine this,
+    # which does not work on CLT-only installs.
+    args << "PG_SYSROOT=#{MacOS.sdk_path}" if MacOS.sdk_root_needed?
 
     system "./configure", *args
     system "make"

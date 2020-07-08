@@ -1,15 +1,16 @@
 class GitDelta < Formula
   desc "Syntax-highlighting pager for git and diff output"
   homepage "https://github.com/dandavison/delta"
-  url "https://github.com/dandavison/delta/archive/0.0.18.tar.gz"
-  sha256 "e159f2eacfbcfe7de97047d304e4eb404e1e54cc01aa6670e159c0e771dbe104"
+  url "https://github.com/dandavison/delta/archive/0.2.0.tar.gz"
+  sha256 "c093d40e7a069572fc31407a39dcb6a77094acb5b52518691de6f8f0c21530de"
+  license "MIT"
   head "https://github.com/dandavison/delta.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "b652f9da416c0cbaae4b796ce967f271c578b970fbd83d226a3a7b9452047de2" => :catalina
-    sha256 "e8403154aa7014a39cfb92dfa9855994a10e3e16f1b69bf4e55f739947b153f2" => :mojave
-    sha256 "8462225c46a7b4ed8c6061a10324978f8fb3319c400cbfec4854afe88795d82f" => :high_sierra
+    sha256 "a684e673f61fdf4e6e5c45b55e5157c8767c524171bc77fa58e6c6a36354ef4c" => :catalina
+    sha256 "57c269e6376350be8c706bdd2dcb497c63786ecbef75edcda944d4f7728223f2" => :mojave
+    sha256 "9de66aecca7e14b8f74d22d9778559006c1a7d8d1dcb39cbd456060d95d32d20" => :high_sierra
   end
 
   depends_on "rust" => :build
@@ -19,7 +20,7 @@ class GitDelta < Formula
 
   def install
     ENV.append_to_cflags "-fno-stack-check" if DevelopmentTools.clang_build_version >= 1010
-    system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    system "cargo", "install", *std_cargo_args
   end
 
   test do

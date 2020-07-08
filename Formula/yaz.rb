@@ -1,15 +1,15 @@
 class Yaz < Formula
   desc "Toolkit for Z39.50/SRW/SRU clients/servers"
   homepage "https://www.indexdata.com/yaz"
-  url "http://ftp.indexdata.dk/pub/yaz/yaz-5.30.2.tar.gz"
-  sha256 "ce0c155a172ee4011e21ed02a9aed2d3e88761bd26abf652cc8f09196c40fe43"
-  revision 1
+  url "http://ftp.indexdata.dk/pub/yaz/yaz-5.30.3.tar.gz"
+  sha256 "f0497fd8420574efab4e5738ea3b70787a6e8042f585156baa30bdc1911ba552"
+  license "BSD-3-Clause"
 
   bottle do
     cellar :any
-    sha256 "a6641ceb0b3a44e74cd1c6761bd03027cbf8b059e38511ece76bf3440e2da374" => :catalina
-    sha256 "babee8b32dff39c555a1c9afb0e28e8d870e9205350516352d04154315fb6546" => :mojave
-    sha256 "ffe3b9ad81fa9a7dbb364af023c294c2c3638e206cddfade0abb3c5df3026bf6" => :high_sierra
+    sha256 "3e99cfd562ae262f299752a7d92dbad3f9b67dd37726e90b1109684f0deac7d1" => :catalina
+    sha256 "0fb86a32e27613df4ef17bc76556364a85d220c9d044f6f2c515ca0bb2e94c6a" => :mojave
+    sha256 "a3dd5357b88bd5780a90dc1fb51c12943d3a8ba6ce69073fb262116c9b050b3e" => :high_sierra
   end
 
   head do

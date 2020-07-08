@@ -1,27 +1,29 @@
+require "language/node"
+
 class Emscripten < Formula
   desc "LLVM bytecode to JavaScript compiler"
   homepage "https://emscripten.org/"
 
   stable do
-    url "https://github.com/emscripten-core/emscripten/archive/1.39.13.tar.gz"
-    sha256 "4126b04d58b466efd61907566303e4a13f029979dc6a50af7257ac74c911cf5a"
+    url "https://github.com/emscripten-core/emscripten/archive/1.39.18.tar.gz"
+    sha256 "aa0df2828096d161636467d4fc062bbeea31e372c122a05c9685bb6cb2d4064e"
 
     resource "fastcomp" do
-      url "https://github.com/emscripten-core/emscripten-fastcomp/archive/1.39.13.tar.gz"
-      sha256 "69361d377aa09ae79572de2be34161b344846abeab4f225f90d0c1cde4b9a3e8"
+      url "https://github.com/emscripten-core/emscripten-fastcomp/archive/1.39.18.tar.gz"
+      sha256 "5f517b4347217073dcdbb63ba94577fbf75260c30f597a05120a2cf542d66cdf"
     end
 
     resource "fastcomp-clang" do
-      url "https://github.com/emscripten-core/emscripten-fastcomp-clang/archive/1.39.13.tar.gz"
-      sha256 "e0c66facd4f0a34741d73053d25449de306aacd8950fa21a34be0659dfe9c2c3"
+      url "https://github.com/emscripten-core/emscripten-fastcomp-clang/archive/1.39.18.tar.gz"
+      sha256 "f17150527cd6130cce609a276b30a402e647211c7b71d6a48344b537215ec9d0"
     end
   end
 
   bottle do
     cellar :any
-    sha256 "ce4f5a89df2a5d365917b3dfd38c730244378582bb329df2474807671eed3624" => :catalina
-    sha256 "2e5ac76bc9d339a00befa19f4904d5c148969af36a7f3457ffd8f86d86ca0290" => :mojave
-    sha256 "f9bf675eefdc2f56cc01cbbb0d98f2a3fb9fdef476151df0977253695f321e20" => :high_sierra
+    sha256 "b6f8f53965798b8143d8ec8c094c3f1769f75130cabe0a6dfcb89fe745c54a70" => :catalina
+    sha256 "288cab4671f7b2b99119e5d738cbdcd1cf685c8118364a7642a3f01739f7fbf6" => :mojave
+    sha256 "66617c1989c49350c360dc4d0561ccdc4a96c409e84b289d70190ae7c65a8716" => :high_sierra
   end
 
   head do
@@ -69,6 +71,11 @@ class Emscripten < Formula
       system "cmake", "..", *cmake_args
       system "make"
       system "make", "install"
+    end
+
+    cd libexec do
+      system "npm", "install", *Language::Node.local_npm_install_args
+      rm_f "node_modules/ws/builderror.log" # Avoid references to Homebrew shims
     end
 
     %w[em++ em-config emar emcc emcmake emconfigure emlink.py emmake

@@ -1,17 +1,19 @@
 class Questdb < Formula
   desc "Time Series Database"
   homepage "https://www.questdb.io"
-  url "https://github.com/questdb/questdb/releases/download/4.2.0/questdb-4.2.0-bin.tar.gz"
-  sha256 "6e262f3f987c37636e0a92eb62291c395d5e215fad61fe885c7bcb2d54b6d720"
+  url "https://github.com/questdb/questdb/releases/download/5.0.1/questdb-5.0.1-no-jre-bin.tar.gz"
+  sha256 "812c4d9e9aab003d39374a63b5de865762d35b72c9776c87f5556944aad4d36e"
+  license "Apache-2.0"
+  revision 1
 
   bottle :unneeded
 
-  depends_on :java => "1.8"
+  depends_on "openjdk@11"
 
   def install
     rm_rf "questdb.exe"
     libexec.install Dir["*"]
-    bin.install_symlink "#{libexec}/questdb.sh" => "questdb"
+    (bin/"questdb").write_env_script libexec/"questdb.sh", :java_version => "11"
   end
 
   plist_options :manual => "questdb start"
@@ -59,10 +61,10 @@ class Questdb < Formula
     mkdir_p testpath/"data"
     begin
       fork do
-        exec "#{bin}/questdb start -d  #{testpath}/data"
+        exec "#{bin}/questdb start -d #{testpath}/data"
       end
-      sleep 4
-      output = shell_output("curl -Is localhost:9000/js?q=x")
+      sleep 30
+      output = shell_output("curl -Is localhost:9000/index.html")
       sleep 4
       assert_match /questDB/, output
     ensure

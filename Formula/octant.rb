@@ -2,15 +2,17 @@ class Octant < Formula
   desc "Kubernetes introspection tool for developers"
   homepage "https://octant.dev"
   url "https://github.com/vmware-tanzu/octant.git",
-      :tag      => "v0.11.1",
-      :revision => "a5f7847a7e21d781fdb7edd5389b04edc2ca6b87"
+      :tag      => "v0.13.1",
+      :revision => "72c5ea94283ab48cc6c2b7e91d7c901af031ecb3"
+  license "Apache-2.0"
   head "https://github.com/vmware-tanzu/octant.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "6ac1314499a56195058fe0c0e811eb2fc05302733a90bdc84d7a1a7c3548cd95" => :catalina
-    sha256 "de5825b649f4fff4c4b43fad0aba6c809f406518fada7df6fda30ef24c89442e" => :mojave
-    sha256 "edbe599e70fc8b2df10c9dfbbb1b8a129401ce0da9041eacfc557215968d043f" => :high_sierra
+    rebuild 1
+    sha256 "eb2db3382c70bfc6decf386bfe901b9e9f2e0319768da4a31cfecebf3bb523b0" => :catalina
+    sha256 "6715f3635314af566c04869c3e36369a895754f6022f0f06eaf6c4d79a4b7346" => :mojave
+    sha256 "f448aee1de3d242ea718a605dcecd55f6fdc01af2dc233dca8c3278c8bbf1fbb" => :high_sierra
   end
 
   depends_on "go" => :build
@@ -32,8 +34,8 @@ class Octant < Formula
       system "go", "generate", "./pkg/icon"
       system "go", "run", "build.go", "web-build"
 
-      commit = Utils.popen_read("git rev-parse HEAD").chomp
-      build_time = Utils.popen_read("date -u +'%Y-%m-%dT%H:%M:%SZ' 2> /dev/null").chomp
+      commit = Utils.safe_popen_read("git", "rev-parse", "HEAD").chomp
+      build_time = Utils.safe_popen_read("date -u +'%Y-%m-%dT%H:%M:%SZ' 2> /dev/null").chomp
       ldflags = ["-X \"main.version=#{version}\"",
                  "-X \"main.gitCommit=#{commit}\"",
                  "-X \"main.buildTime=#{build_time}\""]

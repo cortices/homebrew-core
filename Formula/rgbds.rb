@@ -3,6 +3,7 @@ class Rgbds < Formula
   homepage "https://github.com/rednex/rgbds"
   url "https://github.com/rednex/rgbds/archive/v0.4.0.tar.gz"
   sha256 "18be4a8ec79e43a6343fa128c6790dae33a229e0ed10e3dcccbbdc0b0c363933"
+  license "MIT"
   head "https://github.com/rednex/rgbds.git"
 
   bottle do
@@ -20,7 +21,7 @@ class Rgbds < Formula
   end
 
   test do
-    # https://github.com/rednex/rgbds/blob/master/test/asm/assert-const.asm
+    # https://github.com/rednex/rgbds/blob/HEAD/test/asm/assert-const.asm
     (testpath/"source.asm").write <<~EOS
       SECTION "rgbasm passing asserts", ROM0[0]
         db 0

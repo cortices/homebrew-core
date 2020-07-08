@@ -1,12 +1,12 @@
 class Go < Formula
   desc "Open source programming language to build simple/reliable/efficient software"
   homepage "https://golang.org"
-  revision 1
+  license "BSD-3-Clause"
 
   stable do
-    url "https://dl.google.com/go/go1.14.2.src.tar.gz"
-    mirror "https://fossies.org/linux/misc/go1.14.2.src.tar.gz"
-    sha256 "98de84e69726a66da7b4e58eac41b99cbe274d7e8906eeb8a5b7eb0aadee7f7c"
+    url "https://dl.google.com/go/go1.14.4.src.tar.gz"
+    mirror "https://fossies.org/linux/misc/go1.14.4.src.tar.gz"
+    sha256 "7011af3bbc2ac108d1b82ea8abb87b2e63f78844f0259be20cde4d42c5c40584"
 
     go_version = version.to_s.split(".")[0..1].join(".")
     resource "gotools" do
@@ -16,9 +16,9 @@ class Go < Formula
   end
 
   bottle do
-    sha256 "15b5623471330edcc681d7f9d57b449660e6d4b98c7f67af67f4991fc75d61fc" => :catalina
-    sha256 "fa65e7dabe514e65ae625ed3c84a6bf58df01aceffc6e9aa99752ca8c320ce69" => :mojave
-    sha256 "0997f6f5cda0e3bdb7789a80b53621cb588202ab37fd89bcd269f8dfafd23351" => :high_sierra
+    sha256 "935214ab166d8da148af812614545a25778e4ee11c2ea5cfd332bff72ec4046e" => :catalina
+    sha256 "f1ef93181b0c4c97617b74d787ced8e18ceca12ee52d9559a8db0f21eb84fa43" => :mojave
+    sha256 "4b5e79d15f4bb768bc0cefe54a670a525f21257f2532697df76d44c8cc0e8a7a" => :high_sierra
   end
 
   head do
@@ -33,8 +33,15 @@ class Go < Formula
 
   # Don't update this unless this version cannot bootstrap the new version.
   resource "gobootstrap" do
-    url "https://storage.googleapis.com/golang/go1.7.darwin-amd64.tar.gz"
-    sha256 "51d905e0b43b3d0ed41aaf23e19001ab4bc3f96c3ca134b48f7892485fc52961"
+    on_macos do
+      url "https://storage.googleapis.com/golang/go1.7.darwin-amd64.tar.gz"
+      sha256 "51d905e0b43b3d0ed41aaf23e19001ab4bc3f96c3ca134b48f7892485fc52961"
+    end
+
+    on_linux do
+      url "https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz"
+      sha256 "702ad90f705365227e902b42d91dd1a40e48ca7f67a2f4b2fd052aaa4295cd95"
+    end
   end
 
   def install

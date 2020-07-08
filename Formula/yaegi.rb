@@ -1,25 +1,26 @@
 class Yaegi < Formula
   desc "Yet another elegant Go interpreter"
   homepage "https://github.com/containous/yaegi"
-  url "https://github.com/containous/yaegi/archive/v0.8.2.tar.gz"
-  sha256 "b65f33cf3af28fbb13492bad3cea791d60ed0e34af0b6e49841798100d5ea7cd"
+  url "https://github.com/containous/yaegi/archive/v0.8.11.tar.gz"
+  sha256 "33a33cad8ed06ca5846117d3a0be539998361f62e0588aeb0981b1abf4f2563e"
+  license "Apache-2.0"
   head "https://github.com/containous/yaegi.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "e7635e1ab1126153203e48e2f910f29f2d31ad2535ad94bac7f8097fad622b98" => :catalina
-    sha256 "e83d5caa79669587a310a9042ec16cf6e2e2f42a7135aef3307b5906169cba93" => :mojave
-    sha256 "70fae48a069fbfc412b988ca2e80f101ed8eec3c3c49eaf1c6d750c4d80f141f" => :high_sierra
+    sha256 "ed16046653b93e18b4d692493f8dc1757cf6f331a14e8ceb020a2818ac9ff412" => :catalina
+    sha256 "e69ca038967da39477d1bcb67c757216908a3a2f156ef1f21674fe6197276899" => :mojave
+    sha256 "738ef2f625c085e272b852e62f839ba3111c01fa52f8064ac8148208104fd91d" => :high_sierra
   end
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", "-ldflags", "-s -w", "-trimpath", "-o", bin/"yaegi", "cmd/yaegi/yaegi.go"
+    system "go", "build", *std_go_args, "cmd/yaegi/yaegi.go"
     prefix.install_metafiles
   end
 
   test do
-    assert_match "4", pipe_output("#{bin}/yaegi", "3 + 1", 0)
+    assert_match "4", pipe_output("#{bin}/yaegi", "println(3 + 1)", 0)
   end
 end

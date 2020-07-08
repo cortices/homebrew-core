@@ -1,14 +1,14 @@
 class Gnutls < Formula
   desc "GNU Transport Layer Security (TLS) Library"
   homepage "https://gnutls.org/"
-  url "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.13.tar.xz"
-  mirror "https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v3.6/gnutls-3.6.13.tar.xz"
-  sha256 "32041df447d9f4644570cf573c9f60358e865637d69b7e59d1159b7240b52f38"
+  url "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.14.tar.xz"
+  mirror "https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v3.6/gnutls-3.6.14.tar.xz"
+  sha256 "5630751adec7025b8ef955af4d141d00d252a985769f51b4059e5affa3d39d63"
 
   bottle do
-    sha256 "4b704a699428a852a8cab36803440e07d9fe4bb2d699000f7afd50194258ec71" => :catalina
-    sha256 "65e99b90567f727c64139003577fb03093e8c8913040e3cbb4993916fd9e9e87" => :mojave
-    sha256 "522ae568850ff6065e92e38953f7813073ae751fe6dea7a7a1f418945971873b" => :high_sierra
+    sha256 "ed76b5d22e195a797c2d01ab2f4a8e769a023b056b17e86f11cb6b9af200babe" => :catalina
+    sha256 "d57c7537ca0565e8c8fdf13beb4b082548f87a0df2295469596f1cfe3067faae" => :mojave
+    sha256 "2773c249c2a71f299261889185bda3950ed15150ff09529a71f88c30d68ff26f" => :high_sierra
   end
 
   depends_on "autoconf" => :build
@@ -22,6 +22,10 @@ class Gnutls < Formula
   depends_on "p11-kit"
   depends_on "unbound"
 
+  on_linux do
+    depends_on "autogen" => :build
+  end
+
   def install
     args = %W[
       --disable-dependency-tracking
@@ -29,7 +33,7 @@ class Gnutls < Formula
       --disable-static
       --prefix=#{prefix}
       --sysconfdir=#{etc}
-      --with-default-trust-store-file=#{etc}/openssl/cert.pem
+      --with-default-trust-store-file=#{pkgetc}/cert.pem
       --disable-guile
       --disable-heartbeat-support
       --with-p11-kit
@@ -65,9 +69,8 @@ class Gnutls < Formula
       $CHILD_STATUS.success?
     end
 
-    openssldir = etc/"openssl"
-    openssldir.mkpath
-    (openssldir/"cert.pem").atomic_write(valid_certs.join("\n"))
+    pkgetc.mkpath
+    (pkgetc/"cert.pem").atomic_write(valid_certs.join("\n"))
   end
 
   test do

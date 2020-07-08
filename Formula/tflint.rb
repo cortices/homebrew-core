@@ -1,15 +1,16 @@
 class Tflint < Formula
   desc "Linter for Terraform files"
   homepage "https://github.com/wata727/tflint"
-  url "https://github.com/terraform-linters/tflint/archive/v0.15.4.tar.gz"
-  sha256 "3378055e8f1591c46d313765b4579d7484612ce88bea5222e5d0d14f4f8e5cef"
+  url "https://github.com/terraform-linters/tflint/archive/v0.17.0.tar.gz"
+  sha256 "da288a8077a059fca95614e60bada65595edbde138dfa9ca2ff8974eb34acbb6"
+  license "MPL-2.0"
   head "https://github.com/wata727/tflint.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "58976860388a9495c0edab0404941132192233ceb6b3b7c9781717920e2116d4" => :catalina
-    sha256 "195aafb52ebeddb949b28aec9c22397d0fc13de005f09e30f173dab4faf916e4" => :mojave
-    sha256 "2d3378ca0b19c0b42384c60f63ae35d1e8b76596813f1cc621d83ab894cb3ce3" => :high_sierra
+    sha256 "e8418093a3b01343484b145321c0f88dcea704b4755433a16918b30c37036080" => :catalina
+    sha256 "81e76a5716c6a32316c45496cad502e20bdc7adc77fe7b175057ad0a3b87f2c5" => :mojave
+    sha256 "71703bb43d3a7b2f3e798a07a8494e30cc06b3cb533b41e01c8c6b36781338b2" => :high_sierra
   end
 
   depends_on "go" => :build

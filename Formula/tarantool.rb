@@ -1,15 +1,15 @@
 class Tarantool < Formula
   desc "In-memory database and Lua application server"
   homepage "https://tarantool.org/"
-  url "https://download.tarantool.org/tarantool/2.3/src/tarantool-2.3.2.1.tar.gz"
-  sha256 "03f3b839926bd40f9bd98d3573040ac7ff430cd90384dbe34a1aa5ff29c5e3f3"
+  url "https://hb.bizmrg.com/tarantool.2.3.src/tarantool-2.3.2.81.tar.gz"
+  sha256 "312ee4b68a0834e01a84df0fa1eb34dd7484a5590f68e1184599ed4dd5c575a4"
   head "https://github.com/tarantool/tarantool.git", :branch => "2.3", :shallow => false
 
   bottle do
     cellar :any
-    sha256 "24004d96104ff131553bd4913827cd3124df32a0a91c6ae740774ea4822cb7c4" => :catalina
-    sha256 "6ae890fce09e272eb9cc077a1d0557fa4049ba4d9f53fde9f71b8777a9df8e8f" => :mojave
-    sha256 "c13f335351b42035ddfa20117b2c9f2a415122a3a1f3334858319c590f074a78" => :high_sierra
+    sha256 "e013978027f78ed680b09fd07ddc19045852ea6eb158a98af580826dd363cbb9" => :catalina
+    sha256 "8cd34bf1c2129621a127a59406037a18a2ebe2c3d11d08d8397766568d2057a4" => :mojave
+    sha256 "a66ae22addde4398e8d5300799c839ce404bae2925f2f94a0b95a0b40af7ac81" => :high_sierra
   end
 
   depends_on "autoconf" => :build

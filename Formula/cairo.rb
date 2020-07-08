@@ -12,7 +12,7 @@ class Cairo < Formula
   end
 
   head do
-    url "https://anongit.freedesktop.org/git/cairo", :using => :git
+    url "https://anongit.freedesktop.org/git/cairo.git"
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build
@@ -25,6 +25,8 @@ class Cairo < Formula
   depends_on "libpng"
   depends_on "lzo"
   depends_on "pixman"
+
+  uses_from_macos "zlib"
 
   def install
     if build.head?
