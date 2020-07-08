@@ -5,6 +5,7 @@ class Mpd < Formula
   sha256 "84632a7e82e672b3a6d71651a75d05fb7acd62645c33e3f3af5a1067cfa64cd6"
   license "GPL-2.0"
   head "https://github.com/MusicPlayerDaemon/MPD.git"
+  revision 1
 
   bottle do
     cellar :any
@@ -31,6 +32,7 @@ class Mpd < Formula
   depends_on "libmpdclient"
   depends_on "libnfs"
   depends_on "libsamplerate"
+  depends_on "libshout"
   depends_on "libupnp"
   depends_on "libvorbis"
   depends_on "opus"
@@ -54,6 +56,7 @@ class Mpd < Formula
       -Dffmpeg=enabled
       -Dfluidsynth=enabled
       -Dnfs=enabled
+      -Dshout=enabled
       -Dupnp=enabled
       -Dvorbisenc=enabled
     ]
