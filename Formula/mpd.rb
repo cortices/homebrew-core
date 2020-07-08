@@ -6,13 +6,6 @@ class Mpd < Formula
   license "GPL-2.0"
   head "https://github.com/MusicPlayerDaemon/MPD.git"
 
-  bottle do
-    cellar :any
-    sha256 "afeeb86ddfedd0c66cb703abad7d967dcd5e5d5199b880642f00390c678d9c97" => :catalina
-    sha256 "cfad8e2a2f6ddf22d85cab6570c784da25776782c67c5b6d65fa2596c8c10467" => :mojave
-    sha256 "2d303a1da07f1d9fbdca65fb08fdef4134fd066e6408c6dddbe750000f4323fb" => :high_sierra
-  end
-
   depends_on "boost" => :build
   depends_on "meson" => :build
   depends_on "ninja" => :build
@@ -31,6 +24,7 @@ class Mpd < Formula
   depends_on "libmpdclient"
   depends_on "libnfs"
   depends_on "libsamplerate"
+  depends_on "libshout"
   depends_on "libupnp"
   depends_on "libvorbis"
   depends_on "opus"
@@ -54,6 +48,7 @@ class Mpd < Formula
       -Dffmpeg=enabled
       -Dfluidsynth=enabled
       -Dnfs=enabled
+      -Dshout=enabled
       -Dupnp=enabled
       -Dvorbisenc=enabled
     ]
