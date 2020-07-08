@@ -42,8 +42,8 @@ brew style foo
 ```
 
 After testing, if you think it is needed to force the corresponding bottles to be
-rebuilt and redistributed, add a line of the form `revision 1` to the formula,
-or add 1 to the revision number already present.
+rebuilt and redistributed, add a line of the form `revision 1` to the formula above the `head` line,
+or add 1 to the revision number already present, and run `brew style foo` again.
 
 If you are not already well versed in the use of `git`, then you may learn
 about it from the introduction at
